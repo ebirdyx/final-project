@@ -1,8 +1,16 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Catalog", "services\Catalog\Catalog.csproj", "{437173AD-0A3B-4983-82B8-FF77045D97C0}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
 		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{437173AD-0A3B-4983-82B8-FF77045D97C0}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{437173AD-0A3B-4983-82B8-FF77045D97C0}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{437173AD-0A3B-4983-82B8-FF77045D97C0}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{437173AD-0A3B-4983-82B8-FF77045D97C0}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 EndGlobal
