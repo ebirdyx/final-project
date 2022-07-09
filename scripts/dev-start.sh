@@ -4,6 +4,7 @@ action=$1
 
 export MONGO_DB_USER=${MONGO_DB_USER:-admin}
 export MONGO_DB_PASSWORD=${MONGO_DB_PASSWORD:-admin}
+export REDIS_PASSWORD=${REDIS_PASSWORD:-admin}
 
 COMPOSE="docker-compose"
 

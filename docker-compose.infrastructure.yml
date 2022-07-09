@@ -13,6 +13,17 @@ services:
     environment:
       MONGO_INITDB_ROOT_USERNAME: "${MONGO_DB_USER}"
       MONGO_INITDB_ROOT_PASSWORD: "${MONGO_DB_PASSWORD}"
+      
+  redis:
+    container_name: redis
+    image: redis
+    restart: always
+    ports:
+      - "6379:6379"
+    command: "redis-server --save 20 1 --loglevel warning --requirepass ${REDIS_PASSWORD}"
+    volumes:
+      - redis_data:/data
 
 volumes:
   mongo_data:
+  redis_data:

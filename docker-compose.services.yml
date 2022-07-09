@@ -26,3 +26,5 @@ services:
       - "5277:80"
     environment:
       ASPNETCORE_ENVIRONMENT: Development
+    depends_on:
+      - redis
