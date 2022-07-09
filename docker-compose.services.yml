@@ -30,8 +30,10 @@ services:
       Logging__LogLevel__Default: Information
       CacheSettings__ConnectionString: "redis:6379"
       CacheSettings__Password: "${REDIS_PASSWORD}"
+      GrpcSettings__DiscountUrl: http://discount-grpc
     depends_on:
       - redis
+      - discount-grpc
   
   discount:
     container_name: discount

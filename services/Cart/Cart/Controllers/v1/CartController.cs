@@ -1,5 +1,6 @@
 using System.Net;
 using Cart.Repository;
+using Cart.Services;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Cart.Controllers.v1;
@@ -9,10 +10,12 @@ namespace Cart.Controllers.v1;
 public class CartController : ControllerBase
 {
     private readonly ICartRepository _repository;
+    private readonly DiscountService _discountService;
 
-    public CartController(ICartRepository repository)
+    public CartController(ICartRepository repository, DiscountService discountService)
     {
         _repository = repository ?? throw new ArgumentNullException(nameof(repository));
+        _discountService = discountService ?? throw new ArgumentNullException(nameof(discountService));
     }
 
     [HttpGet("{userName}", Name = "GetCart")]
@@ -28,7 +31,12 @@ public class CartController : ControllerBase
     [ProducesResponseType(typeof(Entities.Cart), (int)HttpStatusCode.OK)]
     public async Task<ActionResult<Entities.Cart>> UpdateCart([FromBody] Entities.Cart cart)
     {
-        // TODO: communicate with discount.grpc and calculate latest prices
+        foreach (var item in cart.Items)
+        {
+            var coupon = await _discountService.GetDiscount(item.ProductName);
+            item.Price -= coupon.Amount;
+        }
+        
         return Ok(await _repository.UpdateCart(cart));
     }
     

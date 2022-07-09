@@ -1,4 +1,6 @@
 using Cart.Repository;
+using Cart.Services;
+using Discount.gRPC.Protos;
 using Microsoft.OpenApi.Models;
 using StackExchange.Redis;
 
@@ -20,6 +22,9 @@ builder.Services.AddStackExchangeRedisCache(c =>
 });
 
 builder.Services.AddScoped<ICartRepository, CartRepository>();
+builder.Services.AddScoped<DiscountService>();
+builder.Services.AddGrpcClient<DiscountProtoService.DiscountProtoServiceClient>(
+    o => o.Address = new Uri(builder.Configuration.GetValue<string>("GrpcSettings:DiscountUrl")));
 
 var app = builder.Build();
 

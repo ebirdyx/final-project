@@ -3,8 +3,8 @@ WORKDIR /app
 EXPOSE 80
 
 FROM mcr.microsoft.com/dotnet/sdk:6.0 AS build
-COPY "services/Cart/Cart" /src
-WORKDIR /src/services/Cart/Cart
+COPY "services" /src
+WORKDIR /src/Cart/Cart
 RUN dotnet restore "Cart.csproj"
 RUN dotnet build "Cart.csproj" -c Release -o /app/build
 
