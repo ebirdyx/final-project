@@ -1,14 +1,11 @@
 ﻿FROM mcr.microsoft.com/dotnet/aspnet:6.0 AS base
 WORKDIR /app
 EXPOSE 80
-EXPOSE 443
 
 FROM mcr.microsoft.com/dotnet/sdk:6.0 AS build
 WORKDIR /src
-COPY ["services/Discount/Discount.gRPC/Discount.gRPC.csproj", "Discount.gRPC/"]
+COPY "services/Discount/Discount.gRPC" .
 RUN dotnet restore "services/Discount/Discount.gRPC/Discount.gRPC.csproj"
-COPY . .
-WORKDIR "/src/Discount.gRPC"
 RUN dotnet build "Discount.gRPC.csproj" -c Release -o /app/build
 
 FROM build AS publish

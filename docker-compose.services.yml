@@ -47,3 +47,16 @@ services:
       DatabaseSettings__ConnectionString: "Server=postgres;Port=5432;Database=discount;User Id=${POSTGRES_USER};Password=${POSTGRES_PASSWORD};"
     depends_on:
       - postgres
+
+  discount-grpc:
+    container_name: discount-grpc
+    image: ${DOCKER_REGISTRY}discount-grpc
+    build:
+      context: .
+      dockerfile: services/Discount/Discount.gRPC/Dockerfile
+    ports:
+      - "5192:80"
+    environment:
+      ASPNETCORE_ENVIRONMENT: Development
+      Logging__LogLevel__Default: Information
+      DatabaseSettings__ConnectionString: "Server=postgres;Port=5432;Database=discount;User Id=${POSTGRES_USER};Password=${POSTGRES_PASSWORD};"
