@@ -6,8 +6,8 @@ services:
     container_name: catalog
     image: ${DOCKER_REGISTRY-}catalog
     build:
-      context: .
-      dockerfile: services/Catalog/Catalog/Dockerfile
+      context: services/Catalog/Catalog
+      dockerfile: Dockerfile
     ports:
       - "5184:80"
     environment:
@@ -20,12 +20,13 @@ services:
     container_name: cart
     image: ${DOCKER_REGISTRY-}cart
     build:
-      context: .
-      dockerfile: services/Cart/Cart/Dockerfile
+      context: services/Cart/Cart
+      dockerfile: Dockerfile
     ports:
       - "5277:80"
     environment:
       ASPNETCORE_ENVIRONMENT: Development
-      CacheSettings__ConnectionString: "http://redis, port=6379, password=${REDIS_PASSWORD}"
+      CacheSettings__ConnectionString: "redis:6379"
+      CacheSettings__Password: "${REDIS_PASSWORD}"
     depends_on:
       - redis
