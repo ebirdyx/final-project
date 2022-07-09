@@ -7,6 +7,8 @@ export MONGO_DB_PASSWORD=${MONGO_DB_PASSWORD:-admin}
 export REDIS_PASSWORD=${REDIS_PASSWORD:-admin}
 export POSTGRES_USER=${POSTGRES_USER:-admin}
 export POSTGRES_PASSWORD=${POSTGRES_PASSWORD:-admin}
+export PG_ADMIN_EMAIL=${PG_ADMIN_EMAIL:-admin@domain.com}
+export PG_ADMIN_PASSWORD=${PG_ADMIN_PASSWORD:-admin}
 
 COMPOSE="docker-compose"
 

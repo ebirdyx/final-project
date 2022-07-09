@@ -40,12 +40,18 @@ services:
       - /var/run/docker.sock:/var/run/docker.sock
       - portainer_data:/data:rw
   
-  adminer:
-    container_name: adminer
-    image: adminer
+  pgadmin:
+    container_name: pgadmin
+    image: dpage/pgadmin4
     restart: always
+    volumes:
+      - pgadmin_data:/var/lib/pgadmin
     ports:
-      - "8084:8080"
+      - "8084:80"
+    environment:
+      PGADMIN_DEFAULT_EMAIL: "${PG_ADMIN_EMAIL}"
+      PGADMIN_DEFAULT_PASSWORD: "${PG_ADMIN_PASSWORD}"
 
 volumes:
   portainer_data:
+  pgadmin_data:

@@ -9,7 +9,7 @@ ecommerce
 * [mongo-express](http://localhost:8081)
 * [redis-commander](http://localhost:8082)
 * [portainer](http://localhost:8083)
-* [adminer](http://localhost:8084)
+* [pgAdmin](http://localhost:8084)
 
 ## Services
 * [Catalog](http://localhost:5184/swagger)
