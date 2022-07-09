@@ -7,7 +7,7 @@ services:
     image: ${DOCKER_REGISTRY-}catalog
     build:
       context: .
-      dockerfile: services/Catalog/Dockerfile
+      dockerfile: services/Catalog/Catalog/Dockerfile
     ports:
       - "5184:80"
     environment:

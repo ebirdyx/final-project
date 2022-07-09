@@ -1,6 +1,10 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Catalog", "services\Catalog\Catalog.csproj", "{437173AD-0A3B-4983-82B8-FF77045D97C0}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Catalog", "services\Catalog\Catalog\Catalog.csproj", "{437173AD-0A3B-4983-82B8-FF77045D97C0}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Services", "Services", "{61F57689-DBA9-409B-BED6-BB97DB54FF72}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Catalog", "Catalog", "{62EB935A-6BEA-4BBC-9FC2-EE6097EE1FBE}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -12,5 +16,9 @@ Global
 		{437173AD-0A3B-4983-82B8-FF77045D97C0}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{437173AD-0A3B-4983-82B8-FF77045D97C0}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{437173AD-0A3B-4983-82B8-FF77045D97C0}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{62EB935A-6BEA-4BBC-9FC2-EE6097EE1FBE} = {61F57689-DBA9-409B-BED6-BB97DB54FF72}
+		{437173AD-0A3B-4983-82B8-FF77045D97C0} = {62EB935A-6BEA-4BBC-9FC2-EE6097EE1FBE}
 	EndGlobalSection
 EndGlobal
