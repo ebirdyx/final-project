@@ -4,6 +4,7 @@ ecommerce
 ## Infrastructure
 * [mongo](http://localhost:27017)
 * [redis](http://localhost:6379)
+* [postgres](http://localhost:5432)
 
 ## Development
 * [mongo-express](http://localhost:8081)
