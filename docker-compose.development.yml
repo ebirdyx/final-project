@@ -35,10 +35,17 @@ services:
     image: portainer/portainer-ce:alpine
     restart: always
     ports:
-      - "9443:9443"
+      - "8083:9000"
     volumes:
       - /var/run/docker.sock:/var/run/docker.sock
-      - portainer_data:/data
+      - portainer_data:/data:rw
+  
+  adminer:
+    container_name: adminer
+    image: adminer
+    restart: always
+    ports:
+      - "8084:8080"
 
 volumes:
   portainer_data:

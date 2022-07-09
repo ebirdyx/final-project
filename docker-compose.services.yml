@@ -6,14 +6,14 @@ services:
     container_name: catalog
     image: ${DOCKER_REGISTRY-}catalog
     build:
-      context: services/Catalog/Catalog
-      dockerfile: Dockerfile
+      context: .
+      dockerfile: services/Catalog/Catalog/Dockerfile
     ports:
       - "5184:80"
     environment:
       ASPNETCORE_ENVIRONMENT: Development
-      DatabaseSettings__ConnectionString: "mongodb://${MONGO_DB_USER}:${MONGO_DB_PASSWORD}@mongo:27017"
       Logging__LogLevel__Default: Information
+      DatabaseSettings__ConnectionString: "mongodb://${MONGO_DB_USER}:${MONGO_DB_PASSWORD}@mongo:27017"
     depends_on:
       - mongo
 
@@ -21,14 +21,28 @@ services:
     container_name: cart
     image: ${DOCKER_REGISTRY-}cart
     build:
-      context: services/Cart/Cart
-      dockerfile: Dockerfile
+      context: .
+      dockerfile: services/Cart/Cart/Dockerfile
     ports:
       - "5277:80"
     environment:
       ASPNETCORE_ENVIRONMENT: Development
+      Logging__LogLevel__Default: Information
       CacheSettings__ConnectionString: "redis:6379"
       CacheSettings__Password: "${REDIS_PASSWORD}"
-      Logging__LogLevel__Default: Information
     depends_on:
       - redis
+  
+  discount:
+    container_name: discount
+    image: ${DOCKER_REGISTRY}discount
+    build:
+      context: .
+      dockerfile: services/Discount/Discount/Dockerfile
+    ports:
+      - "5161:80"
+    environment:
+      ASPNETCORE_ENVIRONMENT: Development
+      Logging__LogLevel__Default: Information
+    depends_on:
+      - postgres

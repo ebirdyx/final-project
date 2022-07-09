@@ -4,7 +4,7 @@ EXPOSE 80
 
 FROM mcr.microsoft.com/dotnet/sdk:6.0 AS build
 WORKDIR /src
-COPY . .
+COPY "services/Cart/Cart" .
 RUN dotnet restore "Cart.csproj"
 RUN dotnet build "Cart.csproj" -c Release -o /app/build
 

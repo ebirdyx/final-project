@@ -7,7 +7,7 @@ services:
     image: mongo
     restart: always
     volumes:
-      - mongo_data:/data/db
+      - mongo_data:/data/db:rw
     ports:
       - "27017:27017"
     environment:
@@ -22,8 +22,22 @@ services:
       - "6379:6379"
     command: "redis-server --save 20 1 --loglevel warning --requirepass ${REDIS_PASSWORD}"
     volumes:
-      - redis_data:/data
+      - redis_data:/data:rw
+  
+  postgres:
+    container_name: postgres
+    image: postgres
+    restart: always
+    volumes:
+      - ./scripts/postgres:/docker-entrypoint-initdb.d:ro
+      - postgres_data:/var/lib/postgresql/data:rw
+    ports:
+      - "5432:5432"
+    environment:
+      POSTGRES_USER: "${POSTGRES_USER}"
+      POSTGRES_PASSWORD: "${POSTGRES_PASSWORD}"
 
 volumes:
   mongo_data:
   redis_data:
+  postgres_data:

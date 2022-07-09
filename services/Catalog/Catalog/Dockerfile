@@ -4,7 +4,7 @@ EXPOSE 80
 
 FROM mcr.microsoft.com/dotnet/sdk:6.0 AS build
 WORKDIR /src
-COPY . .
+COPY "services/Catalog/Catalog" .
 RUN dotnet restore "Catalog.csproj"
 RUN dotnet build "Catalog.csproj" -c Release -o /app/build
 
