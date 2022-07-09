@@ -17,3 +17,15 @@ services:
       ME_CONFIG_MONGODB_SERVER: mongo
     depends_on:
       - mongo
+  
+  redis-commander:
+    container_name: redis-commander
+    image: ghcr.io/joeferner/redis-commander
+    restart: always
+    ports:
+      - "8082:8081"
+    environment:
+      REDIS_HOST: redis
+      REDIS_PASSWORD: "${REDIS_PASSWORD}"
+    depends_on:
+      - redis

@@ -13,7 +13,7 @@ if [[ "$action" == "services" ]]; then
     -f docker-compose.infrastructure.yml \
     -f docker-compose.development.yml \
     -f docker-compose.services.yml \
-    up
+    up --build
 else
   $COMPOSE \
     -f docker-compose.infrastructure.yml \

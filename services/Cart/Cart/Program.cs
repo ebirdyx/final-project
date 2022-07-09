@@ -1,4 +1,6 @@
+using Cart.Repository;
 using Microsoft.OpenApi.Models;
+using StackExchange.Redis;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -11,9 +13,13 @@ builder.Services.AddSwaggerGen(c =>
 
 builder.Services.AddStackExchangeRedisCache(c =>
 {
-    c.Configuration =
-        builder.Configuration.GetValue<string>("CacheSettings:ConnectionString");
+    c.ConfigurationOptions = ConfigurationOptions.Parse(
+        builder.Configuration.GetValue<string>("CacheSettings:ConnectionString"));
+    c.ConfigurationOptions.Password = 
+        builder.Configuration.GetValue<string>("CacheSettings:Password");
 });
+
+builder.Services.AddScoped<ICartRepository, CartRepository>();
 
 var app = builder.Build();
 

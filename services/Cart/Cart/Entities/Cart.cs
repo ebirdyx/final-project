@@ -17,5 +17,6 @@ public class Cart
 
     public decimal TotalPrice => Items
         .Select(i => i.Price * i.Quantity)
+        .DefaultIfEmpty()
         .Aggregate((a, b) => a + b);
 }
