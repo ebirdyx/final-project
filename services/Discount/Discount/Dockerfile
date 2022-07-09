@@ -4,7 +4,8 @@ EXPOSE 80
 
 FROM mcr.microsoft.com/dotnet/sdk:6.0 AS build
 WORKDIR /src
-COPY "services/Discount/Discount" .
+COPY "services/Discount" .
+WORKDIR /src/Discount
 RUN dotnet restore "Discount.csproj"
 RUN dotnet build "Discount.csproj" -c Release -o /app/build
 
