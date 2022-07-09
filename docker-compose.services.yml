@@ -44,5 +44,6 @@ services:
     environment:
       ASPNETCORE_ENVIRONMENT: Development
       Logging__LogLevel__Default: Information
+      DatabaseSettings__ConnectionString: "Server=postgres;Port=5432;Database=discount;User Id=${POSTGRES_USER};Password=${POSTGRES_PASSWORD};"
     depends_on:
       - postgres

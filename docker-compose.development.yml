@@ -51,6 +51,8 @@ services:
     environment:
       PGADMIN_DEFAULT_EMAIL: "${PG_ADMIN_EMAIL}"
       PGADMIN_DEFAULT_PASSWORD: "${PG_ADMIN_PASSWORD}"
+    depends_on:
+      - postgres
 
 volumes:
   portainer_data:
