@@ -1,3 +1,5 @@
+using Discount.Common.Configuration;
+using Discount.Common.Repository;
 using Discount.Extensions;
 using Discount.Repository;
 using Microsoft.OpenApi.Models;
@@ -10,6 +12,12 @@ builder.Services.AddSwaggerGen(c =>
 {
     c.SwaggerDoc("v1", new OpenApiInfo { Title = "Discount", Version = "v1" });
 });
+
+var databaseSettings = builder.Configuration
+        .GetSection("DatabaseSettings")
+        .Get<DatabaseSettings>();
+
+builder.Services.AddSingleton(databaseSettings);
 
 builder.Services.AddScoped<IDiscountRepository, DiscountRepository>();
 

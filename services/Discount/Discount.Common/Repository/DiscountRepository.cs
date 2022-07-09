@@ -1,22 +1,24 @@
 using Dapper;
-using Discount.Entities;
+using Discount.Common.Configuration;
+using Discount.Common.Entities;
+using Discount.Repository;
 using Npgsql;
 
-namespace Discount.Repository;
+namespace Discount.Common.Repository;
 
 public class DiscountRepository : IDiscountRepository
 {
-    private readonly IConfiguration _configuration;
+    private readonly DatabaseSettings _databaseSettings;
 
-    public DiscountRepository(IConfiguration configuration)
+    public DiscountRepository(DatabaseSettings databaseSettings)
     {
-        _configuration = configuration ?? throw new ArgumentNullException(nameof(configuration));
+        _databaseSettings = databaseSettings ??
+                            throw new ArgumentNullException(nameof(databaseSettings));
     }
     
     public async Task<Coupon> GetDiscount(string productName)
     {
-        await using var conn = new NpgsqlConnection(
-            _configuration.GetValue<string>("DatabaseSettings:ConnectionString"));
+        await using var conn = new NpgsqlConnection(_databaseSettings.ConnectionString);
 
         var coupon = await conn.QueryFirstOrDefaultAsync<Coupon>
             ("SELECT * FROM Coupon WHERE ProductName = @ProductName", 
@@ -35,8 +37,7 @@ public class DiscountRepository : IDiscountRepository
 
     public async Task<bool> CreateDiscount(Coupon coupon)
     {
-        await using var conn = new NpgsqlConnection(
-            _configuration.GetValue<string>("DatabaseSettings:ConnectionString"));
+        await using var conn = new NpgsqlConnection(_databaseSettings.ConnectionString);
 
         var affected =
             await conn.ExecuteAsync(
@@ -53,8 +54,7 @@ public class DiscountRepository : IDiscountRepository
 
     public async Task<bool> UpdateDiscount(Coupon coupon)
     {
-        await using var conn = new NpgsqlConnection(
-            _configuration.GetValue<string>("DatabaseSettings:ConnectionString"));
+        await using var conn = new NpgsqlConnection(_databaseSettings.ConnectionString);
 
         var affected =
             await conn.ExecuteAsync(
@@ -72,8 +72,7 @@ public class DiscountRepository : IDiscountRepository
 
     public async Task<bool> DeleteDiscount(string productName)
     {
-        await using var conn = new NpgsqlConnection(
-            _configuration.GetValue<string>("DatabaseSettings:ConnectionString"));
+        await using var conn = new NpgsqlConnection(_databaseSettings.ConnectionString);
 
         var affected =
             await conn.ExecuteAsync(
