@@ -29,3 +29,16 @@ services:
       REDIS_PASSWORD: "${REDIS_PASSWORD}"
     depends_on:
       - redis
+  
+  portainer:
+    container_name: portainer
+    image: portainer/portainer-ce:alpine
+    restart: always
+    ports:
+      - "9443:9443"
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock
+      - portainer_data:/data
+
+volumes:
+  portainer_data:
