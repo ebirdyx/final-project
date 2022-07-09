@@ -1,3 +1,4 @@
+using Discount.Extensions;
 using Discount.Repository;
 using Microsoft.OpenApi.Models;
 
@@ -13,6 +14,8 @@ builder.Services.AddSwaggerGen(c =>
 builder.Services.AddScoped<IDiscountRepository, DiscountRepository>();
 
 var app = builder.Build();
+
+app.MigrateDatabase<Program>();
 
 if (app.Environment.IsDevelopment())
 {
