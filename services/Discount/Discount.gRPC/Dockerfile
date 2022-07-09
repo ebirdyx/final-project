@@ -3,8 +3,7 @@ WORKDIR /app
 EXPOSE 80
 
 FROM mcr.microsoft.com/dotnet/sdk:6.0 AS build
-WORKDIR /src
-COPY "services/Discount" .
+COPY "services/Discount" /src
 WORKDIR /src/Discount.gRPC
 RUN dotnet restore "Discount.gRPC.csproj"
 RUN dotnet build "Discount.gRPC.csproj" -c Release -o /app/build

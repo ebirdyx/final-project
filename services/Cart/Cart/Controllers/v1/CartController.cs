@@ -28,6 +28,7 @@ public class CartController : ControllerBase
     [ProducesResponseType(typeof(Entities.Cart), (int)HttpStatusCode.OK)]
     public async Task<ActionResult<Entities.Cart>> UpdateCart([FromBody] Entities.Cart cart)
     {
+        // TODO: communicate with discount.grpc and calculate latest prices
         return Ok(await _repository.UpdateCart(cart));
     }
     
