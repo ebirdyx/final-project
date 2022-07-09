@@ -9,6 +9,12 @@ builder.Services.AddSwaggerGen(c =>
     c.SwaggerDoc("v1", new OpenApiInfo { Title = "Cart", Version = "v1" });
 });
 
+builder.Services.AddStackExchangeRedisCache(c =>
+{
+    c.Configuration =
+        builder.Configuration.GetValue<string>("CacheSettings:ConnectionString");
+});
+
 var app = builder.Build();
 
 if (app.Environment.IsDevelopment())

@@ -26,5 +26,6 @@ services:
       - "5277:80"
     environment:
       ASPNETCORE_ENVIRONMENT: Development
+      CacheSettings__ConnectionString: "http://redis, port=6379, password=${REDIS_PASSWORD}"
     depends_on:
       - redis
