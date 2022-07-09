@@ -1,8 +1,21 @@
 #!/usr/bin/env bash
 
+action=$1
+
 export MONGO_DB_USER=${MONGO_DB_USER:-admin}
 export MONGO_DB_PASSWORD=${MONGO_DB_PASSWORD:-admin}
 
 COMPOSE="docker-compose"
 
-$COMPOSE -f docker-compose.infrastructure.yml -f docker-compose.development.yml up
+if [[ "$action" == "services" ]]; then
+  $COMPOSE \
+    -f docker-compose.infrastructure.yml \
+    -f docker-compose.development.yml \
+    -f docker-compose.services.yml \
+    up
+else
+  $COMPOSE \
+    -f docker-compose.infrastructure.yml \
+    -f docker-compose.development.yml \
+    up
+fi
