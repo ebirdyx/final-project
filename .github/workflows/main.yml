@@ -98,12 +98,23 @@ jobs:
             "PG_ADMIN_EMAIL": "${{ secrets.PG_ADMIN_EMAIL }}",
             "PG_ADMIN_PASSWORD": "${{ secrets.PG_ADMIN_PASSWORD }}"}
 
-      - name: Deploy infrastructure services
+      - name: Deploy Redis
         uses: Azure/k8s-deploy@v3.1
         with:
           action: deploy
           namespace: default
-          manifests: |
-            k8s/mongo/deployment.yml
-            k8s/postgres/deployment.yml
-            k8s/redis/deployment.yml
+          manifests: k8s/mongo/deployment.yml
+            
+      - name: Deploy Mongo
+        uses: Azure/k8s-deploy@v3.1
+        with:
+          action: deploy
+          namespace: default
+          manifests: k8s/mongo/deployment.yml
+            
+      - name: Deploy Postgres
+        uses: Azure/k8s-deploy@v3.1
+        with:
+          action: deploy
+          namespace: default
+          manifests: k8s/postgres/deployment.yml
