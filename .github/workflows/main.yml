@@ -6,17 +6,17 @@ on:
 
 env:
   CART_SERVICE_DOCKERFILE: services/Cart/Cart/Dockerfile
-  CART_SERVICE_IMAGE_NAME: ${{ secrets.ACR_SERVER }}/final_project_cart:${{ github.run_number }}
+  CART_SERVICE_IMAGE_NAME: ${{ secrets.ACR_SERVER }}/final_project_cart:${{ steps.commit.outputs.short }}
   CATALOG_SERVICE_DOCKERFILE: services/Catalog/Catalog/Dockerfile
-  CATALOG_SERVICE_IMAGE_NAME: ${{ secrets.ACR_SERVER }}/final_project_catalog:${{ github.run_number }}
+  CATALOG_SERVICE_IMAGE_NAME: ${{ secrets.ACR_SERVER }}/final_project_catalog:${{ steps.commit.outputs.short }}
   DISCOUNT_SERVICE_DOCKERFILE: services/Discount/Discount.gRPC/Dockerfile
-  DISCOUNT_SERVICE_IMAGE_NAME: ${{ secrets.ACR_SERVER }}/final_project_discount:${{ github.run_number }}
+  DISCOUNT_SERVICE_IMAGE_NAME: ${{ secrets.ACR_SERVER }}/final_project_discount:${{ steps.commit.outputs.short }}
   ORDERS_SERVICE_DOCKERFILE: services/Orders/Orders.REST/Dockerfile
-  ORDERS_SERVICE_IMAGE_NAME: ${{ secrets.ACR_SERVER }}/final_project_orders:${{ github.run_number }}
+  ORDERS_SERVICE_IMAGE_NAME: ${{ secrets.ACR_SERVER }}/final_project_orders:${{ steps.commit.outputs.short }}
 
 jobs:
 
-  build:
+  build-and-push:
 
     runs-on: ubuntu-latest
 
