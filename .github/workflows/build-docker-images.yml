@@ -6,13 +6,13 @@ on:
 
 env:
   CART_SERVICE_DOCKERFILE: services/Cart/Cart/Dockerfile
-  CART_SERVICE_IMAGE_NAME: ${{ secrets.ACR_SERVER }}/final_project_cart:${{ github.run_number }}
+  CART_SERVICE_IMAGE_NAME: final_project_cart
   CATALOG_SERVICE_DOCKERFILE: services/Catalog/Catalog/Dockerfile
-  CATALOG_SERVICE_IMAGE_NAME: ${{ secrets.ACR_SERVER }}/final_project_catalog:${{ github.run_number }}
+  CATALOG_SERVICE_IMAGE_NAME: final_project_catalog
   DISCOUNT_SERVICE_DOCKERFILE: services/Discount/Discount.gRPC/Dockerfile
-  DISCOUNT_SERVICE_IMAGE_NAME: ${{ secrets.ACR_SERVER }}/final_project_discount:${{ github.run_number }}
+  DISCOUNT_SERVICE_IMAGE_NAME: final_project_discount
   ORDERS_SERVICE_DOCKERFILE: services/Orders/Orders.REST/Dockerfile
-  ORDERS_SERVICE_IMAGE_NAME: ${{ secrets.ACR_SERVER }}/final_project_orders:${{ github.run_number }}
+  ORDERS_SERVICE_IMAGE_NAME: final_project_orders
 
 jobs:
 
@@ -36,7 +36,7 @@ jobs:
           context: .
           file: $CART_SERVICE_DOCKERFILE
           push: true
-          tags: $CART_SERVICE_IMAGE_NAME
+          tags: ${{ secrets.ACR_SERVER }}/$CART_SERVICE_IMAGE_NAME:${{ github.run_number }}
           
       - name: Build Catalog Service
         uses: docker/build-push-action@v3
@@ -44,7 +44,7 @@ jobs:
           context: .
           file: $CATALOG_SERVICE_DOCKERFILE
           push: true
-          tags: $CATALOG_SERVICE_IMAGE_NAME
+          tags: ${{ secrets.ACR_SERVER }}/$CATALOG_SERVICE_IMAGE_NAME:${{ github.run_number }}
           
       - name: Build Discount Service
         uses: docker/build-push-action@v3
@@ -52,7 +52,7 @@ jobs:
           context: .
           file: $DISCOUNT_SERVICE_DOCKERFILE
           push: true
-          tags: $DISCOUNT_SERVICE_IMAGE_NAME
+          tags: ${{ secrets.ACR_SERVER }}/$DISCOUNT_SERVICE_IMAGE_NAME:${{ github.run_number }}
           
       - name: Build Orders Service
         uses: docker/build-push-action@v3
@@ -60,4 +60,4 @@ jobs:
           context: .
           file: $ORDERS_SERVICE_DOCKERFILE
           push: true
-          tags: $ORDERS_SERVICE_IMAGE_NAME
+          tags: ${{ secrets.ACR_SERVER }}/$ORDERS_SERVICE_IMAGE_NAME:${{ github.run_number }}
