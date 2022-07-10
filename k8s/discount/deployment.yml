@@ -20,7 +20,10 @@ spec:
             - containerPort: 80
           env:
             - name: ASPNETCORE_ENVIRONMENT
-              value: "Production"
+              valueFrom:
+                secretKeyRef:
+                  name: final-project-secrets
+                  key: ASPNETCORE_ENVIRONMENT
             - name: Logging__LogLevel__Default
               value: "Information"
             - name: DatabaseSettings__ConnectionString

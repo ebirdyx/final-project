@@ -19,8 +19,6 @@ spec:
           ports:
             - containerPort: 80
           env:
-            - name: ASPNETCORE_ENVIRONMENT
-              value: "Production"
             - name: Logging__LogLevel__Default
               value: "Information"
             - name: CacheSettings__ConnectionString
@@ -32,6 +30,11 @@ spec:
                 secretKeyRef:
                   name: final-project-secrets
                   key: REDIS_PASSWORD
+            - name: ASPNETCORE_ENVIRONMENT
+              valueFrom:
+                secretKeyRef:
+                  name: final-project-secrets
+                  key: ASPNETCORE_ENVIRONMENT
 ---
 apiVersion: v1
 kind: Service
