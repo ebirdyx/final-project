@@ -1,0 +1,50 @@
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: discount
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: discount
+  template:
+    metadata:
+      labels:
+        app: discount
+    spec:
+      containers:
+        - name: discount
+          image: orcuslab.azurecr.io/final_project_discount
+          ports:
+            - containerPort: 80
+          env:
+            - name: ASPNETCORE_ENVIRONMENT
+              value: "Production"
+            - name: Logging__LogLevel__Default
+              value: "Information"
+            - name: DatabaseSettings__ConnectionString
+              value: "Server=postgres;Port=5432;Database=discount;User Id=${POSTGRES_USER};Password=${POSTGRES_PASSWORD};"
+            - name: POSTGRES_USER
+              valueFrom:
+                secretKeyRef:
+                  name: final-project-secrets
+                  key: POSTGRES_USER
+            - name: POSTGRES_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: final-project-secrets
+                  key: POSTGRES_PASSWORD
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: discount
+spec:
+  type: ClusterIP
+  ports:
+    - port: 5000
+      targetPort: 80
+      protocol: TCP
+  selector:
+    app: discount
