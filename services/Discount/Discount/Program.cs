@@ -23,6 +23,8 @@ builder.Services.AddScoped<IDiscountRepository, DiscountRepository>();
 
 var app = builder.Build();
 
+app.UsePathBase("/discount");
+
 app.MigrateDatabase<Program>();
 
 if (app.Environment.IsDevelopment())

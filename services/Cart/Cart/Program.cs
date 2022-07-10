@@ -28,6 +28,8 @@ builder.Services.AddGrpcClient<DiscountProtoService.DiscountProtoServiceClient>(
 
 var app = builder.Build();
 
+app.UsePathBase("/cart");
+
 if (app.Environment.IsDevelopment())
 {
     app.UseSwagger();

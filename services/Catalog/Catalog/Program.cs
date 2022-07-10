@@ -16,6 +16,8 @@ builder.Services.AddScoped<IProductRepository, ProductRepository>();
 
 var app = builder.Build();
 
+app.UsePathBase("/catalog");
+
 if (app.Environment.IsDevelopment())
 {
     app.UseSwagger();
