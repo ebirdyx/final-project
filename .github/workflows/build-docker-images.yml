@@ -23,6 +23,13 @@ jobs:
     steps:
       - uses: actions/checkout@v3
 
+      - name: Docker login to azure container registry
+        uses: azure/docker-login@v1
+        with:
+          login-server: ${{ secrets.ACR_SERVER }}
+          username: ${{ secrets.ACR_USERNAME }}
+          password: ${{ secrets.ACR_PASSWORD }}
+
       - name: Build the Docker images
         run: |
           docker build . --file $CART_SERVICE_DOCKERFILE --tag $CART_SERVICE_IMAGE_NAME:${{ github.run_number }}
@@ -30,19 +37,14 @@ jobs:
           docker build . --file $DISCOUNT_SERVICE_DOCKERFILE --tag $DISCOUNT_SERVICE_IMAGE_NAME:${{ github.run_number }}
           docker build . --file $ORDERS_SERVICE_DOCKERFILE --tag $ORDERS_SERVICE_IMAGE_NAME:${{ github.run_number }}
 
-      - name: Install doctl
-        uses: digitalocean/action-doctl@v2
-        with:
-          token: ${{ secrets.DO_TOKEN }}
-
       - name: push images to digitalocean
         run: |
           doctl registry login
           
-          docker tag $CART_SERVICE_IMAGE_NAME:${{ github.run_number }} registry.digitalocean.com/orcuslab/$CART_SERVICE_IMAGE_NAME:${{ github.run_number }}
-          docker tag $CATALOG_SERVICE_IMAGE_NAME:${{ github.run_number }} registry.digitalocean.com/orcuslab/$CATALOG_SERVICE_IMAGE_NAME:${{ github.run_number }}
-          docker tag $DISCOUNT_SERVICE_IMAGE_NAME:${{ github.run_number }} registry.digitalocean.com/orcuslab/$DISCOUNT_SERVICE_IMAGE_NAME:${{ github.run_number }}
-          docker tag $ORDERS_SERVICE_IMAGE_NAME:${{ github.run_number }} registry.digitalocean.com/orcuslab/$ORDERS_SERVICE_IMAGE_NAME:${{ github.run_number }}
+          docker tag $CART_SERVICE_IMAGE_NAME:${{ github.run_number }} ${{ secrets.ACR_SERVER }}/$CART_SERVICE_IMAGE_NAME:${{ github.run_number }}
+          docker tag $CATALOG_SERVICE_IMAGE_NAME:${{ github.run_number }} ${{ secrets.ACR_SERVER }}/$CATALOG_SERVICE_IMAGE_NAME:${{ github.run_number }}
+          docker tag $DISCOUNT_SERVICE_IMAGE_NAME:${{ github.run_number }} ${{ secrets.ACR_SERVER }}/$DISCOUNT_SERVICE_IMAGE_NAME:${{ github.run_number }}
+          docker tag $ORDERS_SERVICE_IMAGE_NAME:${{ github.run_number }} ${{ secrets.ACR_SERVER }}/$ORDERS_SERVICE_IMAGE_NAME:${{ github.run_number }}
           
           docker push registry.digitalocean.com/orcuslab/$CART_SERVICE_IMAGE_NAME:${{ github.run_number }}
           docker push registry.digitalocean.com/orcuslab/$CATALOG_SERVICE_IMAGE_NAME:${{ github.run_number }}
