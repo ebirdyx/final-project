@@ -61,3 +61,49 @@ jobs:
           file: ${{ env.ORDERS_SERVICE_DOCKERFILE }}
           push: true
           tags: ${{ env.ORDERS_SERVICE_IMAGE_NAME }}
+          
+  deploy:
+
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v3
+
+      - uses: azure/setup-kubectl@v2.0
+ 
+      - uses: azure/login@v1
+        with:
+          tenant-id: ${{ secrets.AZURE_TENANT_ID }}
+          client-id: ${{ secrets.AZURE_CLIENT_ID }}
+          client-secret: ${{ secrets.AZURE_CLIENT_SECRET }}
+          subscription-id: ${{ secrets.AZURE_SUBSCRIPTION_ID }}
+
+      - uses: azure/aks-set-context@v2
+        with:
+          resource-group: ${{ secrets.AKS_RESOURCE_GROUP }}
+          cluster-name: ${{ secrets.AKS_CLUSTER_NAME }}
+
+      - uses: azure/k8s-create-secret@v2
+        with:
+          namespace: default
+          secret-name: final-project-secrets
+          string-data: |
+            MONGO_DB_USER: ${{ secrets.MONGO_DB_USER }}
+            MONGO_DB_PASSWORD: ${{ secrets.MONGO_DB_PASSWORD }}
+            REDIS_PASSWORD: ${{ secrets.REDIS_PASSWORD }}
+            POSTGRES_USER: ${{ secrets.POSTGRES_USER }}
+            POSTGRES_PASSWORD: ${{ secrets.POSTGRES_PASSWORD }}
+            SQL_SERVER_USER: ${{ secrets.SQL_SERVER_USER }}
+            SQL_SERVER_PASS: ${{ secrets.SQL_SERVER_PASS }}
+            PG_ADMIN_EMAIL: ${{ secrets.PG_ADMIN_EMAIL }}
+            PG_ADMIN_PASSWORD: ${{ secrets.PG_ADMIN_PASSWORD }}
+
+      - name: Deploy infrastructure services
+        uses: Azure/k8s-deploy@v3.1
+        with:
+          action: deploy
+          namespace: default
+          manifests: |
+            k8s/mongo/deployment.yml
+            k8s/postgres/deployment.yml
+            k8s/redis/deployment.yml
