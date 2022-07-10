@@ -6,13 +6,13 @@ on:
 
 env:
   CART_SERVICE_DOCKERFILE: services/Cart/Cart/Dockerfile
-  CART_SERVICE_IMAGE_NAME: final_project_cart
+  CART_SERVICE_IMAGE_NAME: ${{ secrets.ACR_SERVER }}/final_project_cart:${{ github.run_number }}
   CATALOG_SERVICE_DOCKERFILE: services/Catalog/Catalog/Dockerfile
-  CATALOG_SERVICE_IMAGE_NAME: final_project_catalog
+  CATALOG_SERVICE_IMAGE_NAME: ${{ secrets.ACR_SERVER }}/final_project_catalog:${{ github.run_number }}
   DISCOUNT_SERVICE_DOCKERFILE: services/Discount/Discount.gRPC/Dockerfile
-  DISCOUNT_SERVICE_IMAGE_NAME: final_project_discount
+  DISCOUNT_SERVICE_IMAGE_NAME: ${{ secrets.ACR_SERVER }}/final_project_discount:${{ github.run_number }}
   ORDERS_SERVICE_DOCKERFILE: services/Orders/Orders.REST/Dockerfile
-  ORDERS_SERVICE_IMAGE_NAME: final_project_orders
+  ORDERS_SERVICE_IMAGE_NAME: ${{ secrets.ACR_SERVER }}/final_project_orders:${{ github.run_number }}
 
 jobs:
 
@@ -30,21 +30,34 @@ jobs:
           username: ${{ secrets.ACR_USERNAME }}
           password: ${{ secrets.ACR_PASSWORD }}
 
-      - name: Build the Docker images
-        run: |
-          docker build . --file $CART_SERVICE_DOCKERFILE --tag $CART_SERVICE_IMAGE_NAME:${{ github.run_number }}
-          docker build . --file $CATALOG_SERVICE_DOCKERFILE --tag $CATALOG_SERVICE_IMAGE_NAME:${{ github.run_number }}
-          docker build . --file $DISCOUNT_SERVICE_DOCKERFILE --tag $DISCOUNT_SERVICE_IMAGE_NAME:${{ github.run_number }}
-          docker build . --file $ORDERS_SERVICE_DOCKERFILE --tag $ORDERS_SERVICE_IMAGE_NAME:${{ github.run_number }}
-
-      - name: push images to digitalocean
-        run: |
-          docker tag $CART_SERVICE_IMAGE_NAME:${{ github.run_number }} ${{ secrets.ACR_SERVER }}/$CART_SERVICE_IMAGE_NAME:${{ github.run_number }}
-          docker tag $CATALOG_SERVICE_IMAGE_NAME:${{ github.run_number }} ${{ secrets.ACR_SERVER }}/$CATALOG_SERVICE_IMAGE_NAME:${{ github.run_number }}
-          docker tag $DISCOUNT_SERVICE_IMAGE_NAME:${{ github.run_number }} ${{ secrets.ACR_SERVER }}/$DISCOUNT_SERVICE_IMAGE_NAME:${{ github.run_number }}
-          docker tag $ORDERS_SERVICE_IMAGE_NAME:${{ github.run_number }} ${{ secrets.ACR_SERVER }}/$ORDERS_SERVICE_IMAGE_NAME:${{ github.run_number }}
+      - name: Build Cart Service
+        uses: docker/build-push-action@v3
+        with:
+          context: .
+          file: $CART_SERVICE_DOCKERFILE
+          push: true
+          tags: $CART_SERVICE_IMAGE_NAME
           
-          docker push ${{ secrets.ACR_SERVER }}/$CART_SERVICE_IMAGE_NAME:${{ github.run_number }}
-          docker push ${{ secrets.ACR_SERVER }}/$CATALOG_SERVICE_IMAGE_NAME:${{ github.run_number }}
-          docker push ${{ secrets.ACR_SERVER }}/$DISCOUNT_SERVICE_IMAGE_NAME:${{ github.run_number }}
-          docker push ${{ secrets.ACR_SERVER }}/$ORDERS_SERVICE_IMAGE_NAME:${{ github.run_number }}
+      - name: Build Catalog Service
+        uses: docker/build-push-action@v3
+        with:
+          context: .
+          file: $CATALOG_SERVICE_DOCKERFILE
+          push: true
+          tags: $CATALOG_SERVICE_IMAGE_NAME
+          
+      - name: Build Discount Service
+        uses: docker/build-push-action@v3
+        with:
+          context: .
+          file: $DISCOUNT_SERVICE_DOCKERFILE
+          push: true
+          tags: $DISCOUNT_SERVICE_IMAGE_NAME
+          
+      - name: Build Orders Service
+        uses: docker/build-push-action@v3
+        with:
+          context: .
+          file: $ORDERS_SERVICE_DOCKERFILE
+          push: true
+          tags: $ORDERS_SERVICE_IMAGE_NAME
