@@ -6,13 +6,13 @@ on:
 
 env:
   CART_SERVICE_DOCKERFILE: services/Cart/Cart/Dockerfile
-  CART_SERVICE_IMAGE_NAME: final_project_cart
+  CART_SERVICE_IMAGE_NAME: ${{ secrets.ACR_SERVER }}/final_project_cart:${{ github.run_number }}
   CATALOG_SERVICE_DOCKERFILE: services/Catalog/Catalog/Dockerfile
-  CATALOG_SERVICE_IMAGE_NAME: final_project_catalog
+  CATALOG_SERVICE_IMAGE_NAME: ${{ secrets.ACR_SERVER }}/final_project_catalog:${{ github.run_number }}
   DISCOUNT_SERVICE_DOCKERFILE: services/Discount/Discount.gRPC/Dockerfile
-  DISCOUNT_SERVICE_IMAGE_NAME: final_project_discount
+  DISCOUNT_SERVICE_IMAGE_NAME: ${{ secrets.ACR_SERVER }}/final_project_discount:${{ github.run_number }}
   ORDERS_SERVICE_DOCKERFILE: services/Orders/Orders.REST/Dockerfile
-  ORDERS_SERVICE_IMAGE_NAME: final_project_orders
+  ORDERS_SERVICE_IMAGE_NAME: ${{ secrets.ACR_SERVER }}/final_project_orders:${{ github.run_number }}
 
 jobs:
 
@@ -34,30 +34,30 @@ jobs:
         uses: docker/build-push-action@v3
         with:
           context: .
-          file: $CART_SERVICE_DOCKERFILE
+          file: ${{ env.CART_SERVICE_DOCKERFILE }}
           push: true
-          tags: ${{ secrets.ACR_SERVER }}/${{ env.CART_SERVICE_IMAGE_NAME }}:${{ github.run_number }}
+          tags: ${{ env.CART_SERVICE_IMAGE_NAME }}
           
       - name: Build Catalog Service
         uses: docker/build-push-action@v3
         with:
           context: .
-          file: $CATALOG_SERVICE_DOCKERFILE
+          file: ${{ env.CATALOG_SERVICE_DOCKERFILE }}
           push: true
-          tags: ${{ secrets.ACR_SERVER }}/$CATALOG_SERVICE_IMAGE_NAME:${{ github.run_number }}
+          tags: ${{ env.CATALOG_SERVICE_IMAGE_NAME }}
           
       - name: Build Discount Service
         uses: docker/build-push-action@v3
         with:
           context: .
-          file: $DISCOUNT_SERVICE_DOCKERFILE
+          file: ${{ env.DISCOUNT_SERVICE_DOCKERFILE }}
           push: true
-          tags: ${{ secrets.ACR_SERVER }}/$DISCOUNT_SERVICE_IMAGE_NAME:${{ github.run_number }}
+          tags: ${{ env.DISCOUNT_SERVICE_IMAGE_NAME }}
           
       - name: Build Orders Service
         uses: docker/build-push-action@v3
         with:
           context: .
-          file: $ORDERS_SERVICE_DOCKERFILE
+          file: ${{ env.ORDERS_SERVICE_DOCKERFILE }}
           push: true
-          tags: ${{ secrets.ACR_SERVER }}/$ORDERS_SERVICE_IMAGE_NAME:${{ github.run_number }}
+          tags: ${{ env.ORDERS_SERVICE_IMAGE_NAME }}
