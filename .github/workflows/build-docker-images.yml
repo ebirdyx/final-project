@@ -36,7 +36,7 @@ jobs:
           context: .
           file: $CART_SERVICE_DOCKERFILE
           push: true
-          tags: ${{ secrets.ACR_SERVER }}/${{ CART_SERVICE_IMAGE_NAME }}:${{ github.run_number }}
+          tags: ${{ secrets.ACR_SERVER }}/${{ env.CART_SERVICE_IMAGE_NAME }}:${{ github.run_number }}
           
       - name: Build Catalog Service
         uses: docker/build-push-action@v3
