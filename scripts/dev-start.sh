@@ -9,6 +9,8 @@ export POSTGRES_USER=${POSTGRES_USER:-admin}
 export POSTGRES_PASSWORD=${POSTGRES_PASSWORD:-admin}
 export PG_ADMIN_EMAIL=${PG_ADMIN_EMAIL:-admin@domain.com}
 export PG_ADMIN_PASSWORD=${PG_ADMIN_PASSWORD:-admin}
+export SQL_SERVER_USER=${SQL_SERVER_USER:-sa}
+export SQL_SERVER_PASS=${SQL_SERVER_PASS:-admin}
 
 COMPOSE="docker-compose"
 

@@ -37,7 +37,7 @@ public class CheckoutOrderCommandHandler : IRequestHandler<CheckoutOrderCommand,
     {
         var email = new Email
         {
-            To = "ebirdyxx@gmail.com",
+            To = "noreply@orcuslab.com",
             Subject = $"Order {order.Id} was created",
             Body = "Order was created"
         };

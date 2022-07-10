@@ -7,12 +7,12 @@ using SendGrid.Helpers.Mail;
 
 namespace Orders.Infrastructure.EmailService;
 
-public class EmailService : IEmailService
+public class SendGridEmailService : IEmailService
 {
     public EmailSettings _emailSettings { get; }
-    public ILogger<EmailService> _logger { get; }
+    public ILogger<SendGridEmailService> _logger { get; }
 
-    public EmailService(IOptions<EmailSettings> emailSettings, ILogger<EmailService> logger)
+    public SendGridEmailService(IOptions<EmailSettings> emailSettings, ILogger<SendGridEmailService> logger)
     {
         _emailSettings = emailSettings.Value;
         _logger = logger;
