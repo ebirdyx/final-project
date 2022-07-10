@@ -4,6 +4,16 @@ on:
   release:
     types: [published]
     
+env:
+  CART_SERVICE_DOCKERFILE: services/Cart/Cart/Dockerfile
+  CART_SERVICE_IMAGE_NAME: ${{ secrets.ACR_SERVER }}/final_project_cart:${{ github.event.release.tag_name }}
+  CATALOG_SERVICE_DOCKERFILE: services/Catalog/Catalog/Dockerfile
+  CATALOG_SERVICE_IMAGE_NAME: ${{ secrets.ACR_SERVER }}/final_project_catalog:${{ github.event.release.tag_name }}
+  DISCOUNT_SERVICE_DOCKERFILE: services/Discount/Discount.gRPC/Dockerfile
+  DISCOUNT_SERVICE_IMAGE_NAME: ${{ secrets.ACR_SERVER }}/final_project_discount:${{ github.event.release.tag_name }}
+  ORDERS_SERVICE_DOCKERFILE: services/Orders/Orders.REST/Dockerfile
+  ORDERS_SERVICE_IMAGE_NAME: ${{ secrets.ACR_SERVER }}/final_project_orders:${{ github.event.release.tag_name }}
+    
 jobs:
 
   build-and-push:
@@ -13,5 +23,41 @@ jobs:
     steps:
       - uses: actions/checkout@v3
 
-      - name: Test
-        run: echo "it works!"
+      - name: Docker login to azure container registry
+        uses: azure/docker-login@v1
+        with:
+          login-server: ${{ secrets.ACR_SERVER }}
+          username: ${{ secrets.ACR_USERNAME }}
+          password: ${{ secrets.ACR_PASSWORD }}
+
+      - name: Build & push Cart Service
+        uses: docker/build-push-action@v3
+        with:
+          context: .
+          file: ${{ env.CART_SERVICE_DOCKERFILE }}
+          push: true
+          tags: ${{ env.CART_SERVICE_IMAGE_NAME }}
+
+      - name: Build & push Catalog Service
+        uses: docker/build-push-action@v3
+        with:
+          context: .
+          file: ${{ env.CATALOG_SERVICE_DOCKERFILE }}
+          push: true
+          tags: ${{ env.CATALOG_SERVICE_IMAGE_NAME }}
+
+      - name: Build & push Discount Service
+        uses: docker/build-push-action@v3
+        with:
+          context: .
+          file: ${{ env.DISCOUNT_SERVICE_DOCKERFILE }}
+          push: true
+          tags: ${{ env.DISCOUNT_SERVICE_IMAGE_NAME }}
+
+      - name: Build & push Orders Service
+        uses: docker/build-push-action@v3
+        with:
+          context: .
+          file: ${{ env.ORDERS_SERVICE_DOCKERFILE }}
+          push: true
+          tags: ${{ env.ORDERS_SERVICE_IMAGE_NAME }}
