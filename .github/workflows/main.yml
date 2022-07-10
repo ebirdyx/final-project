@@ -101,7 +101,7 @@ jobs:
         with:
           action: deploy
           namespace: default
-          manifests: k8s/mongo/deployment.yml
+          manifests: k8s/redis/deployment.yml
             
       - name: Deploy Mongo
         uses: Azure/k8s-deploy@v3.1
@@ -162,3 +162,10 @@ jobs:
           namespace: default
           manifests: k8s/catalog/deployment.yml
           images: ${{ env.CATALOG_SERVICE_IMAGE_NAME }}
+          
+      - name: Deploy Ingress
+        uses: Azure/k8s-deploy@v3.1
+        with:
+          action: deploy
+          namespace: default
+          manifests: k8s/ingress/deployment.yml
