@@ -39,8 +39,6 @@ jobs:
 
       - name: push images to digitalocean
         run: |
-          doctl registry login
-          
           docker tag $CART_SERVICE_IMAGE_NAME:${{ github.run_number }} ${{ secrets.ACR_SERVER }}/$CART_SERVICE_IMAGE_NAME:${{ github.run_number }}
           docker tag $CATALOG_SERVICE_IMAGE_NAME:${{ github.run_number }} ${{ secrets.ACR_SERVER }}/$CATALOG_SERVICE_IMAGE_NAME:${{ github.run_number }}
           docker tag $DISCOUNT_SERVICE_IMAGE_NAME:${{ github.run_number }} ${{ secrets.ACR_SERVER }}/$DISCOUNT_SERVICE_IMAGE_NAME:${{ github.run_number }}
