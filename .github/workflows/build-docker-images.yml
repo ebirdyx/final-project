@@ -44,7 +44,7 @@ jobs:
           docker tag $DISCOUNT_SERVICE_IMAGE_NAME:${{ github.run_number }} ${{ secrets.ACR_SERVER }}/$DISCOUNT_SERVICE_IMAGE_NAME:${{ github.run_number }}
           docker tag $ORDERS_SERVICE_IMAGE_NAME:${{ github.run_number }} ${{ secrets.ACR_SERVER }}/$ORDERS_SERVICE_IMAGE_NAME:${{ github.run_number }}
           
-          docker push registry.digitalocean.com/orcuslab/$CART_SERVICE_IMAGE_NAME:${{ github.run_number }}
-          docker push registry.digitalocean.com/orcuslab/$CATALOG_SERVICE_IMAGE_NAME:${{ github.run_number }}
-          docker push registry.digitalocean.com/orcuslab/$DISCOUNT_SERVICE_IMAGE_NAME:${{ github.run_number }}
-          docker push registry.digitalocean.com/orcuslab/$ORDERS_SERVICE_IMAGE_NAME:${{ github.run_number }}
+          docker push ${{ secrets.ACR_SERVER }}/$CART_SERVICE_IMAGE_NAME:${{ github.run_number }}
+          docker push ${{ secrets.ACR_SERVER }}/$CATALOG_SERVICE_IMAGE_NAME:${{ github.run_number }}
+          docker push ${{ secrets.ACR_SERVER }}/$DISCOUNT_SERVICE_IMAGE_NAME:${{ github.run_number }}
+          docker push ${{ secrets.ACR_SERVER }}/$ORDERS_SERVICE_IMAGE_NAME:${{ github.run_number }}
