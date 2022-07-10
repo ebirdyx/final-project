@@ -1,0 +1,50 @@
+name: Build docker images
+
+on:
+  push:
+    branches: [ "main" ]
+
+env:
+  CART_SERVICE_DOCKERFILE: services/Cart/Cart/Dockerfile
+  CART_SERVICE_IMAGE_NAME: final_project_cart
+  CATALOG_SERVICE_DOCKERFILE: services/Catalog/Catalog/Dockerfile
+  CATALOG_SERVICE_IMAGE_NAME: final_project_catalog
+  DISCOUNT_SERVICE_DOCKERFILE: services/Discount/Discount.gRPC/Dockerfile
+  DISCOUNT_SERVICE_IMAGE_NAME: final_project_discount
+  ORDERS_SERVICE_DOCKERFILE: services/Orders/Orders.REST/Dockerfile
+  ORDERS_SERVICE_IMAGE_NAME: final_project_orders
+
+jobs:
+
+  build:
+
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v3
+
+      - name: Build the Docker images
+        run: |
+          docker build . --file $CART_SERVICE_DOCKERFILE --tag $CART_SERVICE_IMAGE_NAME:${{ github.run_number }}
+          docker build . --file $CATALOG_SERVICE_DOCKERFILE --tag $CATALOG_SERVICE_IMAGE_NAME:${{ github.run_number }}
+          docker build . --file $DISCOUNT_SERVICE_DOCKERFILE --tag $DISCOUNT_SERVICE_IMAGE_NAME:${{ github.run_number }}
+          docker build . --file $ORDERS_SERVICE_DOCKERFILE --tag $ORDERS_SERVICE_IMAGE_NAME:${{ github.run_number }}
+
+      - name: Install doctl
+        uses: digitalocean/action-doctl@v2
+        with:
+          token: ${{ secrets.DO_TOKEN }}
+
+      - name: push images to digitalocean
+        run: |
+          doctl registry login
+          
+          docker tag $IMAGE_NAME registry.digitalocean.com/orcuslab/$CART_SERVICE_IMAGE_NAME
+          docker tag $IMAGE_NAME registry.digitalocean.com/orcuslab/$CATALOG_SERVICE_IMAGE_NAME
+          docker tag $IMAGE_NAME registry.digitalocean.com/orcuslab/$DISCOUNT_SERVICE_IMAGE_NAME
+          docker tag $IMAGE_NAME registry.digitalocean.com/orcuslab/$ORDERS_SERVICE_IMAGE_NAME
+          
+          docker push registry.digitalocean.com/orcuslab/$CART_SERVICE_IMAGE_NAME
+          docker push registry.digitalocean.com/orcuslab/$CATALOG_SERVICE_IMAGE_NAME
+          docker push registry.digitalocean.com/orcuslab/$DISCOUNT_SERVICE_IMAGE_NAME
+          docker push registry.digitalocean.com/orcuslab/$ORDERS_SERVICE_IMAGE_NAME
