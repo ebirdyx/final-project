@@ -4,7 +4,9 @@ kind: Ingress
 metadata:
   name: final-project
   annotations:
-    nginx.ingress.kubernetes.io/rewrite-target: /
+    kubernetes.io/ingress.class: nginx
+    cert-manager.io/cluster-issuer: letsencrypt-production
+    nginx.ingress.kubernetes.io/rewrite-target: /$2
 spec:
   ingressClassName: nginx
   tls:
@@ -15,14 +17,14 @@ spec:
     - host: ecommerce.az.orcuslab.com
       http:
         paths:
-          - path: /cart
+          - path: /cart(/|$)(.*)
             pathType: Prefix
             backend:
               service:
                 name: cart
                 port:
                   number: 5000
-          - path: /catalog
+          - path: /catalog(/|$)(.*)
             pathType: Prefix
             backend:
               service:
