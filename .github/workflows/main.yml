@@ -6,13 +6,13 @@ on:
 
 env:
   CART_SERVICE_DOCKERFILE: services/Cart/Cart/Dockerfile
-  CART_SERVICE_IMAGE_NAME: ${{ secrets.ACR_SERVER }}/final_project_cart:${{ steps.commit.outputs.short }}
+  CART_SERVICE_IMAGE_NAME: ${{ secrets.ACR_SERVER }}/final_project_cart:${{ github.sha }}
   CATALOG_SERVICE_DOCKERFILE: services/Catalog/Catalog/Dockerfile
-  CATALOG_SERVICE_IMAGE_NAME: ${{ secrets.ACR_SERVER }}/final_project_catalog:${{ steps.commit.outputs.short }}
+  CATALOG_SERVICE_IMAGE_NAME: ${{ secrets.ACR_SERVER }}/final_project_catalog:${{ github.sha }}
   DISCOUNT_SERVICE_DOCKERFILE: services/Discount/Discount.gRPC/Dockerfile
-  DISCOUNT_SERVICE_IMAGE_NAME: ${{ secrets.ACR_SERVER }}/final_project_discount:${{ steps.commit.outputs.short }}
+  DISCOUNT_SERVICE_IMAGE_NAME: ${{ secrets.ACR_SERVER }}/final_project_discount:${{ github.sha }}
   ORDERS_SERVICE_DOCKERFILE: services/Orders/Orders.REST/Dockerfile
-  ORDERS_SERVICE_IMAGE_NAME: ${{ secrets.ACR_SERVER }}/final_project_orders:${{ steps.commit.outputs.short }}
+  ORDERS_SERVICE_IMAGE_NAME: ${{ secrets.ACR_SERVER }}/final_project_orders:${{ github.sha }}
 
 jobs:
 
