@@ -20,10 +20,26 @@ app.UsePathBase("/catalog");
 
 if (app.Environment.IsDevelopment())
 {
-    app.UseSwagger();
+    app.UseSwagger(c =>
+    {
+        c.PreSerializeFilters.Add((swaggerDoc, request) =>
+        {
+            const string prefixHeader = "X-Forwarded-Prefix";
+            if (!request.Headers.ContainsKey(prefixHeader))
+                return;
+            
+            var serverUrl = request.Headers[prefixHeader];
+            swaggerDoc.Servers = new List<OpenApiServer>
+            {
+                new() { Description = "Server behind nginx", Url = serverUrl }
+            };
+        });
+    });
+    
     app.UseSwaggerUI(c =>
     {
-        c.SwaggerEndpoint("/swagger/v1/swagger.json", "Catalog v1");
+        c.RoutePrefix = "swagger";
+        c.SwaggerEndpoint("v1/swagger.json", "Catalog v1");
     });
 }
 
