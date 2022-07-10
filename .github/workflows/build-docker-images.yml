@@ -30,7 +30,7 @@ jobs:
           username: ${{ secrets.ACR_USERNAME }}
           password: ${{ secrets.ACR_PASSWORD }}
 
-      - name: Build Cart Service
+      - name: Build & push Cart Service
         uses: docker/build-push-action@v3
         with:
           context: .
@@ -38,7 +38,7 @@ jobs:
           push: true
           tags: ${{ env.CART_SERVICE_IMAGE_NAME }}
           
-      - name: Build Catalog Service
+      - name: Build & push Catalog Service
         uses: docker/build-push-action@v3
         with:
           context: .
@@ -46,7 +46,7 @@ jobs:
           push: true
           tags: ${{ env.CATALOG_SERVICE_IMAGE_NAME }}
           
-      - name: Build Discount Service
+      - name: Build & push Discount Service
         uses: docker/build-push-action@v3
         with:
           context: .
@@ -54,7 +54,7 @@ jobs:
           push: true
           tags: ${{ env.DISCOUNT_SERVICE_IMAGE_NAME }}
           
-      - name: Build Orders Service
+      - name: Build & push Orders Service
         uses: docker/build-push-action@v3
         with:
           context: .
