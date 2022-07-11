@@ -162,6 +162,14 @@ jobs:
           manifests: k8s/catalog/deployment.yml
           images: ${{ env.CATALOG_SERVICE_IMAGE_NAME }}
           
+      - name: Deploy Orders
+        uses: Azure/k8s-deploy@v3.1
+        with:
+          action: deploy
+          namespace: default
+          manifests: k8s/orders/deployment.yml
+          images: ${{ env.ORDERS_SERVICE_IMAGE_NAME }}
+          
       - name: Deploy Ingress
         uses: Azure/k8s-deploy@v3.1
         with:
