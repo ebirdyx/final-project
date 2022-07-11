@@ -1,0 +1,36 @@
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: webui
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: webui
+  template:
+    metadata:
+      labels:
+        app: webui
+    spec:
+      containers:
+        - name: webui
+          image: orcuslab.azurecr.io/final_project_webui
+          ports:
+            - containerPort: 80
+          env:
+            - name: Logging__LogLevel__Default
+              value: "Information"
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: webui
+spec:
+  type: ClusterIP
+  ports:
+    - port: 5000
+      targetPort: 80
+      protocol: TCP
+  selector:
+    app: webui

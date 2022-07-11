@@ -13,6 +13,8 @@ env:
   DISCOUNT_SERVICE_IMAGE_NAME: ${{ secrets.ACR_SERVER }}/final_project_discount:${{ github.sha }}
   ORDERS_SERVICE_DOCKERFILE: services/Orders/Orders.REST/Dockerfile
   ORDERS_SERVICE_IMAGE_NAME: ${{ secrets.ACR_SERVER }}/final_project_orders:${{ github.sha }}
+  WEBUI_SERVICE_DOCKERFILE: services/WebUI/WebUI/Dockerfile
+  WEBUI_SERVICE_IMAGE_NAME: ${{ secrets.ACR_SERVER }}/final_project_webui:${{ github.sha }}
 
 jobs:
 
@@ -61,6 +63,14 @@ jobs:
           file: ${{ env.ORDERS_SERVICE_DOCKERFILE }}
           push: true
           tags: ${{ env.ORDERS_SERVICE_IMAGE_NAME }}
+
+      - name: Build & push WebUI
+        uses: docker/build-push-action@v3
+        with:
+          context: .
+          file: ${{ env.WEBUI_SERVICE_DOCKERFILE }}
+          push: true
+          tags: ${{ env.WEBUI_SERVICE_IMAGE_NAME }}
           
   deploy-infrastructure:
     
@@ -178,6 +188,14 @@ jobs:
           namespace: default
           manifests: k8s/orders/deployment.yml
           images: ${{ env.ORDERS_SERVICE_IMAGE_NAME }}
+
+      - name: Deploy WebUI
+        uses: Azure/k8s-deploy@v3.1
+        with:
+          action: deploy
+          namespace: default
+          manifests: k8s/webui/deployment.yml
+          images: ${{ env.WEBUI_SERVICE_IMAGE_NAME }}
           
       - name: Deploy Ingress
         uses: Azure/k8s-deploy@v3.1
