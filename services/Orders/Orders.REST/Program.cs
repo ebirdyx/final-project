@@ -1,6 +1,8 @@
 using Microsoft.OpenApi.Models;
 using Orders.Application;
 using Orders.Infrastructure;
+using Orders.Infrastructure.Persistence;
+using Orders.REST.Extensions;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -15,6 +17,15 @@ builder.Services.AddApplicationServices();
 builder.Services.AddInfrastructureServices(builder.Configuration);
 
 var app = builder.Build();
+
+app.MigrateDatabase<OrderContext>((context, services) =>
+{
+    var logger = services.GetService<ILogger<OrderContextSeed>>();
+    
+    OrderContextSeed
+        .SeedAsync(context, logger)
+        .Wait();
+});
 
 app.UsePathBase("/orders");
 

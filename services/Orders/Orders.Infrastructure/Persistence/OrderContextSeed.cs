@@ -24,10 +24,21 @@ public class OrderContextSeed
                 UserName = "swn",
                 FirstName = "Pamela",
                 LastName = "Braholli",
-                EmailAddress = "ebirdyxx@gmail.com",
+                EmailAddress = "noreply@orcuslab.com",
                 AddressLine = "Tirana",
                 Country = "Albania",
-                TotalPrice = 1035
+                TotalPrice = 1035,
+                State = "CA",
+                ZipCode = "5000",
+                CardName = "Visa",
+                CardNumber = "4333433343334333",
+                Expiration = "0325",
+                CVV = "433",
+                PaymentMethod = 1,
+                CreatedBy = "swn",
+                CreatedDate = DateTime.Now,
+                LastModifiedBy = "swn",
+                LastModifiedDate = DateTime.Now
             }
         };
     }

@@ -30,3 +30,10 @@ spec:
                 name: catalog
                 port:
                   number: 5000
+          - path: /orders(/|$)(.*)
+            pathType: Prefix
+            backend:
+              service:
+                name: orders
+                port:
+                  number: 5000

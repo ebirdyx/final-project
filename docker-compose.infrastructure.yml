@@ -36,8 +36,22 @@ services:
     environment:
       POSTGRES_USER: "${POSTGRES_USER}"
       POSTGRES_PASSWORD: "${POSTGRES_PASSWORD}"
+      
+  sqlserver:
+    container_name: sqlserver
+    image: mcr.microsoft.com/azure-sql-edge
+    restart: always
+    volumes:
+      - sqlserver_data:/var/opt/mssql
+    ports:
+      - "1433:1433"
+    environment:
+      ACCEPT_EULA: 1
+      SA_PASSWORD: "${SQL_SERVER_PASS}"
+      MSSQL_PID: Developer
 
 volumes:
   mongo_data:
   redis_data:
   postgres_data:
+  sqlserver_data:

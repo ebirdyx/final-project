@@ -1,0 +1,53 @@
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: orders
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: orders
+  template:
+    metadata:
+      labels:
+        app: orders
+    spec:
+      containers:
+        - name: orders
+          image: orcuslab.azurecr.io/final_project_orders
+          ports:
+            - containerPort: 80
+          env:
+            - name: ASPNETCORE_ENVIRONMENT
+              valueFrom:
+                secretKeyRef:
+                  name: final-project-secrets
+                  key: ASPNETCORE_ENVIRONMENT
+            - name: Logging__LogLevel__Default
+              value: "Information"
+            - name: DatabaseSettings__ConnectionString
+              value: "Server=tcp:sqlserver,1433;Database=Orders;User ID=${SQL_SERVER_USER};Password=${SQL_SERVER_PASS};Trusted_Connection=False;Encrypt=False;"
+            - name: SQL_SERVER_USER
+              valueFrom:
+                secretKeyRef:
+                  name: final-project-secrets
+                  key: SQL_SERVER_USER
+            - name: SQL_SERVER_PASS
+              valueFrom:
+                secretKeyRef:
+                  name: final-project-secrets
+                  key: SQL_SERVER_PASS
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: orders
+spec:
+  type: ClusterIP
+  ports:
+    - port: 5000
+      targetPort: 80
+      protocol: TCP
+  selector:
+    app: orders
