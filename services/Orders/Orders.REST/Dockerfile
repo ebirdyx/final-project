@@ -3,8 +3,8 @@ WORKDIR /app
 EXPOSE 80
 
 FROM mcr.microsoft.com/dotnet/sdk:6.0 AS build
-COPY "services/Orders" /src
-WORKDIR /src/Orders.REST
+COPY "services" /src
+WORKDIR /src/Orders/Orders.REST
 RUN dotnet restore "Orders.REST.csproj"
 RUN dotnet build "Orders.REST.csproj" -c Release -o /app/build
 

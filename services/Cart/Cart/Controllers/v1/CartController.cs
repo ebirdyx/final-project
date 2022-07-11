@@ -1,6 +1,9 @@
 using System.Net;
+using AutoMapper;
 using Cart.Repository;
 using Cart.Services;
+using MassTransit;
+using Messaging.Events;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Cart.Controllers.v1;
@@ -11,11 +14,15 @@ public class CartController : ControllerBase
 {
     private readonly ICartRepository _repository;
     private readonly DiscountService _discountService;
+    private readonly IMapper _mapper;
+    private readonly IPublishEndpoint _publishEndpoint;
 
-    public CartController(ICartRepository repository, DiscountService discountService)
+    public CartController(ICartRepository repository, DiscountService discountService, IMapper mapper, IPublishEndpoint publishEndpoint)
     {
         _repository = repository ?? throw new ArgumentNullException(nameof(repository));
         _discountService = discountService ?? throw new ArgumentNullException(nameof(discountService));
+        _mapper = mapper ?? throw new ArgumentNullException(nameof(mapper));
+        _publishEndpoint = publishEndpoint ?? throw new ArgumentNullException(nameof(publishEndpoint));
     }
 
     [HttpGet("{userName}", Name = "GetCart")]
@@ -47,5 +54,26 @@ public class CartController : ControllerBase
     {
         await _repository.DeleteCart(userName);
         return Ok();
+    }
+
+    [HttpPost]
+    [Route("[action]")]
+    [Produces("application/json")]
+    [ProducesResponseType((int)HttpStatusCode.Accepted)]
+    [ProducesResponseType((int)HttpStatusCode.BadRequest)]
+    public async Task<IActionResult> CheckoutCart([FromBody] CartCheckout cartCheckout)
+    {
+        var cart = await _repository.GetCart(cartCheckout.UserName);
+        if (cart == null)
+        {
+            return BadRequest();
+        }
+
+        var msg = _mapper.Map<CartCheckoutEvent>(cartCheckout);
+        msg.TotalPrice = cart.TotalPrice;
+        await _publishEndpoint.Publish(msg);
+
+        await _repository.DeleteCart(cartCheckout.UserName);
+        return Accepted();
     }
 }

@@ -48,7 +48,7 @@ if (app.Environment.IsDevelopment())
     app.UseSwaggerUI(c =>
     {
         c.RoutePrefix = "swagger";
-        c.SwaggerEndpoint("/swagger/v1/swagger.json", "Discount v1");
+        c.SwaggerEndpoint("v1/swagger.json", "Discount v1");
     });
 }
 

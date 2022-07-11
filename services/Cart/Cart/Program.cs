@@ -1,6 +1,7 @@
 using Cart.Repository;
 using Cart.Services;
 using Discount.gRPC.Protos;
+using MassTransit;
 using Microsoft.OpenApi.Models;
 using StackExchange.Redis;
 
@@ -25,6 +26,19 @@ builder.Services.AddScoped<ICartRepository, CartRepository>();
 builder.Services.AddScoped<DiscountService>();
 builder.Services.AddGrpcClient<DiscountProtoService.DiscountProtoServiceClient>(
     o => o.Address = new Uri(builder.Configuration.GetValue<string>("GrpcSettings:DiscountUrl")));
+
+builder.Services.AddMassTransit(c =>
+{
+    c.UsingRabbitMq((context, config) =>
+    {
+        config.Host(
+            builder.Configuration.GetValue<string>("Messaging:ConnectionString"));
+    });
+});
+
+builder.Services.AddMassTransitHostedService();
+
+builder.Services.AddAutoMapper(typeof(Program));
 
 var app = builder.Build();
 

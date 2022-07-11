@@ -1,7 +1,9 @@
+using MassTransit;
 using Microsoft.OpenApi.Models;
 using Orders.Application;
 using Orders.Infrastructure;
 using Orders.Infrastructure.Persistence;
+using Orders.REST.Consumers;
 using Orders.REST.Extensions;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -15,6 +17,28 @@ builder.Services.AddSwaggerGen(c =>
 
 builder.Services.AddApplicationServices();
 builder.Services.AddInfrastructureServices(builder.Configuration);
+
+builder.Services.AddMassTransit(c =>
+{
+    c.AddConsumer<CartCheckoutConsumer>();
+    
+    c.UsingRabbitMq((context, config) =>
+    {
+        config.Host(
+            builder.Configuration.GetValue<string>("Messaging:ConnectionString"));
+        
+        config.ReceiveEndpoint(Messaging.Constants.CartCheckoutQueue, o =>
+        {
+            o.ConfigureConsumer<CartCheckoutConsumer>(context);
+        });
+    });
+});
+
+builder.Services.AddMassTransitHostedService();
+
+builder.Services.AddAutoMapper(typeof(Program));
+
+builder.Services.AddScoped<CartCheckoutConsumer>();
 
 var app = builder.Build();
 
@@ -50,7 +74,7 @@ if (app.Environment.IsDevelopment())
     app.UseSwaggerUI(c =>
     {
         c.RoutePrefix = "swagger";
-        c.SwaggerEndpoint("/swagger/v1/swagger.json", "Orders v1");
+        c.SwaggerEndpoint("v1/swagger.json", "Orders v1");
     });
 }
 

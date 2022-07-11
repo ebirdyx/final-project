@@ -29,15 +29,6 @@ public class OrderController : ControllerBase
         return Ok(orders);
     }
 
-    [HttpPost(Name = "CheckoutOrder")]
-    [Produces("application/json")]
-    [ProducesResponseType((int)HttpStatusCode.OK)]
-    public async Task<ActionResult<int>> CheckoutOrder([FromBody] CheckoutOrderCommand command)
-    {
-        var result = await _mediator.Send(command);
-        return Ok(result);
-    }
-
     [HttpPut(Name = "UpdateOrder")]
     [Produces("application/json")]
     [ProducesResponseType(StatusCodes.Status204NoContent)]

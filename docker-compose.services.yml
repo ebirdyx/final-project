@@ -31,9 +31,11 @@ services:
       CacheSettings__ConnectionString: "redis:6379"
       CacheSettings__Password: "${REDIS_PASSWORD}"
       GrpcSettings__DiscountUrl: http://discount-grpc
+      Messaging__ConnectionString: "amqp://${RABBITMQ_USER}:${RABBITMQ_PASS}@rabbitmq:5672"
     depends_on:
       - redis
       - discount-grpc
+      - rabbitmq
   
   discount:
     container_name: discount
@@ -75,3 +77,6 @@ services:
       ASPNETCORE_ENVIRONMENT: Development
       Logging__LogLevel__Default: Information
       DatabaseSettings__SqlConnectionString: "${MSSQL_CONN_STRING}"
+      Messaging__ConnectionString: "amqp://${RABBITMQ_USER}:${RABBITMQ_PASS}@rabbitmq:5672"
+    depends_on:
+      - rabbitmq

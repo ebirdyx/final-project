@@ -27,6 +27,8 @@ public class CheckoutOrderCommandHandler : IRequestHandler<CheckoutOrderCommand,
         CheckoutOrderCommand request, CancellationToken cancellationToken)
     {
         var order = _mapper.Map<Order>(request);
+        order.LastModifiedBy = order.UserName;
+        order.LastModifiedDate = DateTime.Now;
         var newOrder = await _repository.AddAsync(order);
         _logger.LogInformation($"Oder {newOrder.Id} is successfully created.");
         await SendMail(newOrder);
