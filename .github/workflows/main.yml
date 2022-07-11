@@ -90,19 +90,11 @@ jobs:
             "REDIS_PASSWORD": "${{ secrets.REDIS_PASSWORD }}",
             "POSTGRES_USER": "${{ secrets.POSTGRES_USER }}",
             "POSTGRES_PASSWORD": "${{ secrets.POSTGRES_PASSWORD }}",
-            "SQL_SERVER_USER": "${{ secrets.SQL_SERVER_USER }}",
-            "SQL_SERVER_PASS": "${{ secrets.SQL_SERVER_PASS }}",
+            "MSSQL_CONN_STRING": "${{ secrets.MSSQL_CONN_STRING }}",
             "PG_ADMIN_EMAIL": "${{ secrets.PG_ADMIN_EMAIL }}",
             "PG_ADMIN_PASSWORD": "${{ secrets.PG_ADMIN_PASSWORD }}",
             "ASPNETCORE_ENVIRONMENT": "Development"}
 
-      - name: Deploy SQL Server
-        uses: Azure/k8s-deploy@v3.1
-        with:
-          action: deploy
-          namespace: default
-          manifests: k8s/sqlserver/deployment.yml
-          
       - name: Deploy Redis
         uses: Azure/k8s-deploy@v3.1
         with:

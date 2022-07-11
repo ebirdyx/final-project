@@ -9,8 +9,7 @@ export POSTGRES_USER=${POSTGRES_USER:-admin}
 export POSTGRES_PASSWORD=${POSTGRES_PASSWORD:-admin}
 export PG_ADMIN_EMAIL=${PG_ADMIN_EMAIL:-admin@domain.com}
 export PG_ADMIN_PASSWORD=${PG_ADMIN_PASSWORD:-admin}
-export SQL_SERVER_USER=${SQL_SERVER_USER:-sa}
-export SQL_SERVER_PASS=${SQL_SERVER_PASS:-aDm1Np@SSW0rD}
+export MSSQL_CONN_STRING=${MSSQL_CONN_STRING:-"Server=tcp:orcuslab.database.windows.net,1433;Initial Catalog=orders-dev;Persist Security Info=False;User ID=orcuslab;Password=AdPbYbyrVQpuwLc9;MultipleActiveResultSets=False;Encrypt=True;TrustServerCertificate=False;Connection Timeout=30;"}
 
 COMPOSE="docker-compose"
 

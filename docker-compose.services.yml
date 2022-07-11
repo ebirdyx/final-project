@@ -74,4 +74,4 @@ services:
     environment:
       ASPNETCORE_ENVIRONMENT: Development
       Logging__LogLevel__Default: Information
-      DatabaseSettings__SqlConnectionString: "Server=tcp:sqlserver,1433;Database=Orders;User ID=${SQL_SERVER_USER};Password=${SQL_SERVER_PASS};Trusted_Connection=False;Encrypt=False;"
+      DatabaseSettings__SqlConnectionString: "${MSSQL_CONN_STRING}"
