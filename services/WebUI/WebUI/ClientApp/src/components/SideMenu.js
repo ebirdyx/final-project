@@ -1,13 +1,11 @@
-import React, {Component} from 'react';
+import React from 'react';
 
-class SideMenu extends Component {
-  render() {
-    return (
-      <div>
-        SideMenu
-      </div>
-    );
-  }
+const SideMenu = () => {
+  return (
+    <div>
+      SideMenu
+    </div>
+  );
 }
 
 export default SideMenu;

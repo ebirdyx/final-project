@@ -2,7 +2,6 @@ import React, {useEffect, useState} from 'react';
 import SideMenu from "./SideMenu";
 import Content from "./Content";
 import CatalogService from "../services/catalog";
-import Pagination from "./Pagination";
 import {Grid} from "semantic-ui-react";
 
 const Home = () => {

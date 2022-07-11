@@ -1,18 +1,16 @@
-import React, { Component } from 'react';
-import { Container } from 'semantic-ui-react';
+import React from 'react';
+import {Container} from 'semantic-ui-react';
 import NavMenu from './NavMenu';
 
-export class Layout extends Component {
-  static displayName = Layout.name;
+const Layout = ({children}) => {
+  return (
+    <div>
+      <NavMenu/>
+      <Container>
+        {children}
+      </Container>
+    </div>
+  );
+};
 
-  render () {
-    return (
-      <div>
-        <NavMenu />
-        <Container>
-          {this.props.children}
-        </Container>
-      </div>
-    );
-  }
-}
+export default Layout;
