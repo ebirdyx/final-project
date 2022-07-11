@@ -19,6 +19,8 @@ spec:
           ports:
             - containerPort: 80
           env:
+            - name: Messaging__ConnectionString
+              value: "amqp://${RABBITMQ_USER}:${RABBITMQ_PASS}@rabbitmq:5672"
             - name: ASPNETCORE_ENVIRONMENT
               valueFrom:
                 secretKeyRef:
@@ -31,6 +33,16 @@ spec:
                 secretKeyRef:
                   name: final-project-secrets
                   key: MSSQL_CONN_STRING
+            - name: RABBITMQ_USER
+              valueFrom:
+                secretKeyRef:
+                  name: final-project-secrets
+                  key: RABBITMQ_USER
+            - name: RABBITMQ_PASS
+              valueFrom:
+                secretKeyRef:
+                  name: final-project-secrets
+                  key: RABBITMQ_PASS
 ---
 apiVersion: v1
 kind: Service
