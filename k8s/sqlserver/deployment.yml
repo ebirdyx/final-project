@@ -26,7 +26,7 @@ spec:
     spec:
       containers:
         - name: sqlserver
-          image: mcr.microsoft.com/azure-sql-edge
+          image: mcr.microsoft.com/mssql/server
           ports:
             - containerPort: 1433
           env:

@@ -49,6 +49,8 @@ services:
       ACCEPT_EULA: 1
       SA_PASSWORD: "${SQL_SERVER_PASS}"
       MSSQL_PID: Developer
+    cap_add:
+      - SYS_PTRACE
 
 volumes:
   mongo_data:
