@@ -16,13 +16,6 @@ spec:
     - host: ecommerce.az.orcuslab.com
       http:
         paths:
-          - path: (/|$)(.*)
-            pathType: Prefix
-            backend:
-              service:
-                name: webui
-                port:
-                  number: 5000
           - path: /cart(/|$)(.*)
             pathType: Prefix
             backend:
@@ -42,5 +35,12 @@ spec:
             backend:
               service:
                 name: orders
+                port:
+                  number: 5000
+          - path: /(/|$)(.*)
+            pathType: Prefix
+            backend:
+              service:
+                name: webui
                 port:
                   number: 5000

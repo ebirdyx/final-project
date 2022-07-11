@@ -13,6 +13,7 @@ builder.Services.AddSwaggerGen(c =>
 
 builder.Services.AddScoped<ICatalogContext, CatalogContext>();
 builder.Services.AddScoped<IProductRepository, ProductRepository>();
+builder.Services.AddCors();
 
 var app = builder.Build();
 
@@ -42,6 +43,13 @@ if (app.Environment.IsDevelopment())
         c.SwaggerEndpoint("v1/swagger.json", "Catalog v1");
     });
 }
+
+app.UseCors(c =>
+{
+    c.AllowAnyOrigin();
+    c.AllowAnyHeader();
+    c.AllowAnyMethod();
+});
 
 app.UseAuthorization();
 
