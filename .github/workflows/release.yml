@@ -93,6 +93,8 @@ jobs:
             "MSSQL_CONN_STRING": "${{ secrets.MSSQL_CONN_STRING }}",
             "PG_ADMIN_EMAIL": "${{ secrets.PG_ADMIN_EMAIL }}",
             "PG_ADMIN_PASSWORD": "${{ secrets.PG_ADMIN_PASSWORD }}",
+            "RABBITMQ_USER": "${{ secrets.RABBITMQ_USER }}",
+            "RABBITMQ_PASS": "${{ secrets.RABBITMQ_PASS }}",
             "ASPNETCORE_ENVIRONMENT": "Development"}
 
       - name: Deploy Redis
@@ -115,6 +117,13 @@ jobs:
           action: deploy
           namespace: default
           manifests: k8s/postgres/deployment.yml
+
+      - name: Deploy RabbitMQ
+        uses: Azure/k8s-deploy@v3.1
+        with:
+          action: deploy
+          namespace: default
+          manifests: k8s/rabbitmq/deployment.yml
   
   deploy-microservices:
     
