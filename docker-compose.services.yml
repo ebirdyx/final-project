@@ -80,3 +80,20 @@ services:
       Messaging__ConnectionString: "amqp://${RABBITMQ_USER}:${RABBITMQ_PASS}@rabbitmq:5672"
     depends_on:
       - rabbitmq
+ 
+  webui:
+    container_name: webui
+    image: ${DOCKER_REGISTRY}webui
+    build:
+      context: .
+      dockerfile: services/WebUI/WebUI/Dockerfile
+    ports:
+      - "8080:80"
+    environment:
+      ASPNETCORE_ENVIRONMENT: Development
+      Logging__LogLevel__Default: Information
+    depends_on:
+      - cart
+      - catalog
+      - discount-grpc
+      - orders
