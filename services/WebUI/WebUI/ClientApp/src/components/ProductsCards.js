@@ -1,7 +1,7 @@
 import React from 'react';
-import {Card, Image, Label} from "semantic-ui-react";
+import {Card, CardMeta, Image, Label} from "semantic-ui-react";
 
-const ProductCard = ({name, description, price, imageFile}) => {
+const ProductCard = ({name, description, price, imageFile, category}) => {
   return (
     <Card>
       <Image src={imageFile} wrapped ui={false} />
@@ -15,6 +15,9 @@ const ProductCard = ({name, description, price, imageFile}) => {
         <Card.Description>
           {description}
         </Card.Description>
+      </Card.Content>
+      <Card.Content extra textAlign='center'>
+        <Label color='blue'>{category}</Label>
       </Card.Content>
     </Card>
   );
