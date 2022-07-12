@@ -17,12 +17,12 @@ const pageNumberItemsOptions = [
 const Home = () => {
   const [products, setProducts] = useState([]);
   const [categories, setCategories] = useState([]);
-  const [selectedCategory, setSelectedCategory] = useState('');
+  const [selectedCategory, setSelectedCategory] = useState('all');
   const [showProducts, setShowProducts] = useState([]);
   const [currentPage, setCurrentPage] = useState(1);
   const [productsPerPage, setProductsPerPage] = useState(12);
   const [searchOption, setSearchOption] = useState('products');
-  const totalPages = Math.ceil(products.length / productsPerPage);
+  const [totalPages, setTotalPages] = useState(0);
   
   const paginationOnChange = (_, { activePage }) => {
     setCurrentPage(activePage);
@@ -40,8 +40,8 @@ const Home = () => {
     return products.filter(p => p.category === category).length;
   };
   
-  const categoryOnChange = (_, {header}) => {
-    setSelectedCategory(header);
+  const categoryOnSelect = (_, {name}) => {
+    setSelectedCategory(name);
   };
   
   useEffect(() => {
@@ -53,18 +53,42 @@ const Home = () => {
   }, []);
 
   useEffect(() => {
-    setShowProducts(products.slice((currentPage-1)*productsPerPage, productsPerPage*currentPage))
-  }, [products, currentPage, productsPerPage]);
+    if (selectedCategory === 'all')
+      setShowProducts(products
+        .slice((currentPage-1)*productsPerPage, productsPerPage*currentPage)
+      )
+    else
+      setShowProducts(products
+        .filter(p => p.category === selectedCategory)
+        .slice((currentPage-1)*productsPerPage, productsPerPage*currentPage)
+      )
+
+    setTotalPages(
+      Math.ceil(products
+        .filter(p => selectedCategory === 'all' ? true : p.category === selectedCategory)
+        .length / productsPerPage));
+    
+  }, [products, currentPage, productsPerPage, selectedCategory]);
   
   return (
     <div>
       <Grid>
         <Grid.Column width={4} >
           <Menu vertical>
+            <Menu.Item
+              name='all'
+              active={selectedCategory === 'all'}
+              onClick={categoryOnSelect}
+            >
+              <Label color='teal'>{products.length}</Label>
+              <span style={{fontWeight: 'bold'}}>All</span>
+            </Menu.Item>
+            
             {categories.map(c =>
               <Menu.Item
-                key={c}
-                name={c}
+                key={c} name={c}
+                active={selectedCategory === c}
+                onClick={categoryOnSelect}
               >
                 <Label color='teal'>{productsPerCategory(c)}</Label>
                 {c}
@@ -97,18 +121,20 @@ const Home = () => {
           </Grid>
           
           <ProductsCards products={showProducts} />
-          
-          <Pagination
-            size='mini'
-            totalPages={totalPages}
-            activePage={currentPage}
-            onPageChange={paginationOnChange}
-            ellipsisItem={{ content: <Icon name='ellipsis horizontal' />, icon: true }}
-            firstItem={{ content: <Icon name='angle double left' />, icon: true }}
-            lastItem={{ content: <Icon name='angle double right' />, icon: true }}
-            prevItem={{ content: <Icon name='angle left' />, icon: true }}
-            nextItem={{ content: <Icon name='angle right' />, icon: true }}
-          />
+
+          {totalPages > 1 &&
+            <Pagination
+              size='mini'
+              totalPages={totalPages}
+              activePage={currentPage}
+              onPageChange={paginationOnChange}
+              ellipsisItem={{ content: <Icon name='ellipsis horizontal' />, icon: true }}
+              firstItem={{ content: <Icon name='angle double left' />, icon: true }}
+              lastItem={{ content: <Icon name='angle double right' />, icon: true }}
+              prevItem={{ content: <Icon name='angle left' />, icon: true }}
+              nextItem={{ content: <Icon name='angle right' />, icon: true }}
+            />
+          }
         </Grid.Column>
       </Grid>
     </div>
