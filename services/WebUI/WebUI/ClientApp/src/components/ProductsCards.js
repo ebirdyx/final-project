@@ -20,14 +20,14 @@ const ProductCard = ({name, description, price, imageFile}) => {
   );
 };
 
-const Content = ({products}) => {
+const ProductsCards = ({products}) => {
   return (
-    <div>
-      <Card.Group itemsPerRow='3' doubling centered >
+    <div style={{marginBottom: '30px'}}>
+      <Card.Group itemsPerRow='3' doubling centered stackable >
         {products.map(product => <ProductCard key={product.id} {...product} />)}
       </Card.Group>
     </div>
   );
 };
 
-export default Content;
+export default ProductsCards;
