@@ -59,7 +59,9 @@ const Home = () => {
 
   useEffect(() => {
     const selectedProducts = products
-      .filter(p => searchOption === 'products' ? p.name.includes(searchTerm) : p.category.includes(searchTerm))
+      .filter(p => searchOption === 'products' 
+        ? p.name.toLowerCase().includes(searchTerm) 
+        : p.category.toLowerCase().includes(searchTerm.toLowerCase()))
       .filter(p => selectedCategory === 'all' ? true : p.category === selectedCategory);
     
     setShowProducts(selectedProducts
