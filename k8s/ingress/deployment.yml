@@ -16,21 +16,21 @@ spec:
     - host: ecommerce.az.orcuslab.com
       http:
         paths:
-          - path: /cart(/|$)(.*)
+          - path: /api/cart(/|$)(.*)
             pathType: Prefix
             backend:
               service:
                 name: cart
                 port:
                   number: 5000
-          - path: /catalog(/|$)(.*)
+          - path: /api/catalog(/|$)(.*)
             pathType: Prefix
             backend:
               service:
                 name: catalog
                 port:
                   number: 5000
-          - path: /orders(/|$)(.*)
+          - path: /api/orders(/|$)(.*)
             pathType: Prefix
             backend:
               service:

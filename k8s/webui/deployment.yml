@@ -22,7 +22,12 @@ spec:
             - name: Logging__LogLevel__Default
               value: "Information"
             - name: REACT_APP_CATALOG_SERVICE_URL
-              value: "https://ecommerce.az.orcuslab.com/catalog/api/v1/catalog"
+              value: "https://ecommerce.az.orcuslab.com/api/catalog/api/v1/catalog"
+            - name: ASPNETCORE_ENVIRONMENT
+              valueFrom:
+                secretKeyRef:
+                  name: final-project-secrets
+                  key: ASPNETCORE_ENVIRONMENT
 ---
 apiVersion: v1
 kind: Service

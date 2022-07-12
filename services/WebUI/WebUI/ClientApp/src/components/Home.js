@@ -1,7 +1,6 @@
 import React, {useEffect, useState} from 'react';
-import ProductsCards from "./ProductsCards";
 import CatalogService from "../services/catalog";
-import {Grid, Icon, Input, Label, Menu, Pagination, Select} from "semantic-ui-react";
+import {Card, Container, Grid, Icon, Image, Input, Label, Menu, Pagination, Select} from "semantic-ui-react";
 
 const searchOptions = [
   { key: 'products', text: 'Products', value: 'products' },
@@ -13,6 +12,115 @@ const pageNumberItemsOptions = [
   { key: '24', text: '24', value: 24 },
   { key: '36', text: '36', value: 36 },
 ];
+
+const ProductCard = ({name, description, price, imageFile, category}) => {
+  return (
+    <Card>
+      <Image src={imageFile} wrapped ui={false} />
+      <Card.Content>
+        <Card.Header>{name}</Card.Header>
+        <Card.Meta>
+          <Label as='a' color='blue' ribbon>
+            <span>$ {price}</span>
+          </Label>
+        </Card.Meta>
+        <Card.Description>
+          {description}
+        </Card.Description>
+      </Card.Content>
+      <Card.Content extra textAlign='center'>
+        <Label color='blue'>{category}</Label>
+      </Card.Content>
+    </Card>
+  );
+};
+
+const ProductsCards = ({products}) => {
+  return (
+    <div style={{marginBottom: '30px'}}>
+      <Card.Group itemsPerRow='3' doubling centered stackable >
+        {products.map(product => <ProductCard key={product.id} {...product} />)}
+      </Card.Group>
+    </div>
+  );
+};
+
+const CategoriesMenu = ({products, categories, selectedCategory, categoryOnSelect}) => {
+  const productsPerCategory = (category) => {
+    return products.filter(p => p.category === category).length;
+  };
+  
+  return (
+    <Menu vertical>
+      <Menu.Item
+        name='all'
+        active={selectedCategory === 'all'}
+        onClick={categoryOnSelect}
+      >
+        <Label color='teal'>{products.length}</Label>
+        <span style={{fontWeight: 'bold'}}>All</span>
+      </Menu.Item>
+
+      {categories.map(c =>
+        <Menu.Item
+          key={c} name={c}
+          active={selectedCategory === c}
+          onClick={categoryOnSelect}
+        >
+          <Label color='teal'>{productsPerCategory(c)}</Label>
+          {c}
+        </Menu.Item>
+      )}
+    </Menu>
+  );
+};
+
+const ProductPagination = ({totalPages, currentPage, paginationOnChange}) => {
+  return (
+    <Pagination
+      size='mini'
+      totalPages={totalPages}
+      activePage={currentPage}
+      onPageChange={paginationOnChange}
+      ellipsisItem={{ content: <Icon name='ellipsis horizontal' />, icon: true }}
+      firstItem={{ content: <Icon name='angle double left' />, icon: true }}
+      lastItem={{ content: <Icon name='angle double right' />, icon: true }}
+      prevItem={{ content: <Icon name='angle left' />, icon: true }}
+      nextItem={{ content: <Icon name='angle right' />, icon: true }}
+    />
+  );
+};
+
+const SearchTopMenu = ({onSearchChange, searchOption, searchOptionOnChange, productsPerPageOnChange}) => {
+  return (
+    <Grid columns={2}>
+      <Grid.Column width={15}>
+        <Input
+          type='text'
+          action fluid
+          placeholder='Search...'
+          onChange={onSearchChange}
+        >
+          <input />
+          <Select
+            compact
+            options={searchOptions}
+            defaultValue={searchOption}
+            onChange={searchOptionOnChange}
+          />
+        </Input>
+      </Grid.Column>
+      <Grid.Column width={1}>
+        <Select
+          compact
+          options={pageNumberItemsOptions}
+          defaultValue={12}
+          onChange={productsPerPageOnChange}
+        />
+      </Grid.Column>
+    </Grid>
+  );
+};
 
 const Home = () => {
   const [products, setProducts] = useState([]);
@@ -35,10 +143,6 @@ const Home = () => {
   
   const searchOptionOnChange = (_, {value}) => {
     setSearchOption(value);
-  };
-  
-  const productsPerCategory = (category) => {
-    return products.filter(p => p.category === category).length;
   };
   
   const categoryOnSelect = (_, {name}) => {
@@ -75,70 +179,29 @@ const Home = () => {
     <div>
       <Grid>
         <Grid.Column width={4} >
-          <Menu vertical>
-            <Menu.Item
-              name='all'
-              active={selectedCategory === 'all'}
-              onClick={categoryOnSelect}
-            >
-              <Label color='teal'>{products.length}</Label>
-              <span style={{fontWeight: 'bold'}}>All</span>
-            </Menu.Item>
-            
-            {categories.map(c =>
-              <Menu.Item
-                key={c} name={c}
-                active={selectedCategory === c}
-                onClick={categoryOnSelect}
-              >
-                <Label color='teal'>{productsPerCategory(c)}</Label>
-                {c}
-              </Menu.Item>
-            )}
-          </Menu>
+          <CategoriesMenu
+            products={products}
+            categories={categories}
+            selectedCategory={selectedCategory}
+            categoryOnSelect={categoryOnSelect}
+          />
         </Grid.Column>
         
         <Grid.Column width={12} >
-          <Grid columns={2}>
-            <Grid.Column width={15}>
-              <Input
-                type='text'
-                action fluid
-                placeholder='Search...'
-                onChange={onSearchChange}
-              >
-                <input />
-                <Select
-                  compact
-                  options={searchOptions}
-                  defaultValue={searchOption}
-                  onChange={searchOptionOnChange}
-                />
-              </Input>
-            </Grid.Column>
-            <Grid.Column width={1}>
-              <Select
-                compact
-                options={pageNumberItemsOptions}
-                defaultValue={12}
-                onChange={productsPerPageOnChange}
-              />
-            </Grid.Column>
-          </Grid>
+          <SearchTopMenu
+            onSearchChange={onSearchChange}
+            searchOption={searchOption}
+            searchOptionOnChange={searchOptionOnChange}
+            productsPerPageOnChange={productsPerPageOnChange}
+          />
           
           <ProductsCards products={showProducts} />
 
           {totalPages > 1 &&
-            <Pagination
-              size='mini'
+            <ProductPagination
               totalPages={totalPages}
-              activePage={currentPage}
-              onPageChange={paginationOnChange}
-              ellipsisItem={{ content: <Icon name='ellipsis horizontal' />, icon: true }}
-              firstItem={{ content: <Icon name='angle double left' />, icon: true }}
-              lastItem={{ content: <Icon name='angle double right' />, icon: true }}
-              prevItem={{ content: <Icon name='angle left' />, icon: true }}
-              nextItem={{ content: <Icon name='angle right' />, icon: true }}
+              currentPage={currentPage}
+              paginationOnChange={paginationOnChange}
             />
           }
         </Grid.Column>
