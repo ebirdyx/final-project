@@ -22,6 +22,7 @@ const Home = () => {
   const [currentPage, setCurrentPage] = useState(1);
   const [productsPerPage, setProductsPerPage] = useState(12);
   const [searchOption, setSearchOption] = useState('products');
+  const [searchTerm, setSearchTerm] = useState('');
   const [totalPages, setTotalPages] = useState(0);
   
   const paginationOnChange = (_, { activePage }) => {
@@ -44,6 +45,10 @@ const Home = () => {
     setSelectedCategory(name);
   };
   
+  const onSearchChange = (_, {value}) => {
+    setSearchTerm(value);
+  };
+  
   useEffect(() => {
     CatalogService.getAll()
       .then(res => {
@@ -53,22 +58,16 @@ const Home = () => {
   }, []);
 
   useEffect(() => {
-    if (selectedCategory === 'all')
-      setShowProducts(products
-        .slice((currentPage-1)*productsPerPage, productsPerPage*currentPage)
-      )
-    else
-      setShowProducts(products
-        .filter(p => p.category === selectedCategory)
-        .slice((currentPage-1)*productsPerPage, productsPerPage*currentPage)
-      )
+    const selectedProducts = products
+      .filter(p => searchOption === 'products' ? p.name.includes(searchTerm) : p.category.includes(searchTerm))
+      .filter(p => selectedCategory === 'all' ? true : p.category === selectedCategory);
+    
+    setShowProducts(selectedProducts
+      .slice((currentPage-1)*productsPerPage, productsPerPage*currentPage))
 
     setTotalPages(
-      Math.ceil(products
-        .filter(p => selectedCategory === 'all' ? true : p.category === selectedCategory)
-        .length / productsPerPage));
-    
-  }, [products, currentPage, productsPerPage, selectedCategory]);
+      Math.ceil(selectedProducts.length / productsPerPage));
+  }, [products, currentPage, productsPerPage, selectedCategory, searchTerm]);
   
   return (
     <div>
@@ -100,7 +99,12 @@ const Home = () => {
         <Grid.Column width={12} >
           <Grid columns={2}>
             <Grid.Column width={15}>
-              <Input type='text' placeholder='Search...' action fluid >
+              <Input
+                type='text'
+                action fluid
+                placeholder='Search...'
+                onChange={onSearchChange}
+              >
                 <input />
                 <Select
                   compact
