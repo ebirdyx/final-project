@@ -1,5 +1,5 @@
 import React from 'react';
-import {Card, CardMeta, Image, Label} from "semantic-ui-react";
+import {Card, Image, Label} from "semantic-ui-react";
 
 const ProductCard = ({name, description, price, imageFile, category}) => {
   return (

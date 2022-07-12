@@ -21,6 +21,8 @@ spec:
           env:
             - name: Logging__LogLevel__Default
               value: "Information"
+            - name: REACT_APP_CATALOG_SERVICE_URL
+              value: "https://ecommerce.az.orcuslab.com/catalog/api/v1/catalog"
 ---
 apiVersion: v1
 kind: Service

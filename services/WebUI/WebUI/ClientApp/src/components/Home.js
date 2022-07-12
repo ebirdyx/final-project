@@ -1,7 +1,7 @@
 import React, {useEffect, useState} from 'react';
 import ProductsCards from "./ProductsCards";
 import CatalogService from "../services/catalog";
-import {Button, Grid, Icon, Input, Label, Menu, Pagination, Select} from "semantic-ui-react";
+import {Grid, Icon, Input, Label, Menu, Pagination, Select} from "semantic-ui-react";
 
 const searchOptions = [
   { key: 'products', text: 'Products', value: 'products' },
@@ -69,7 +69,7 @@ const Home = () => {
 
     setTotalPages(
       Math.ceil(selectedProducts.length / productsPerPage));
-  }, [products, currentPage, productsPerPage, selectedCategory, searchTerm]);
+  }, [products, currentPage, productsPerPage, selectedCategory, searchTerm, searchOption]);
   
   return (
     <div>

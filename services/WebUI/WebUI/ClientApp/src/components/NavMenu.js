@@ -3,7 +3,11 @@ import {Menu} from "semantic-ui-react";
 
 const NavMenu = () => {
   return (
-    <Menu>
+    <Menu stackable>
+      <Menu.Item>
+        <img alt="logo" src='/logo.png' />
+      </Menu.Item>
+      
       <Menu.Item
         name='E-Commerce'
         position='left'
