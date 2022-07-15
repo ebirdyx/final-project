@@ -23,6 +23,10 @@ spec:
               value: "Information"
             - name: REACT_APP_CATALOG_SERVICE_URL
               value: "https://ecommerce.az.orcuslab.com/api/catalog/api/v1/catalog"
+            - name: REACT_APP_AUTH0_DOMAIN
+              value: "dev-wmjl5tm2.us.auth0.com"
+            - name: REACT_APP_AUTH0_CLIENT_ID
+              value: "FMeJHSqsHUm6ajT8xypQjlEAgoQH7WHj"
             - name: ASPNETCORE_ENVIRONMENT
               valueFrom:
                 secretKeyRef:

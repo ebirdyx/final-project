@@ -5,7 +5,6 @@ services:
   mongo:
     container_name: mongo
     image: mongo
-    restart: always
     volumes:
       - mongo_data:/data/db:rw
     ports:
@@ -17,7 +16,6 @@ services:
   redis:
     container_name: redis
     image: redis
-    restart: always
     ports:
       - "6379:6379"
     command: "redis-server --save 20 1 --loglevel warning --requirepass ${REDIS_PASSWORD}"
@@ -27,7 +25,6 @@ services:
   postgres:
     container_name: postgres
     image: postgres
-    restart: always
     volumes:
       - ./scripts/postgres:/docker-entrypoint-initdb.d:ro
       - postgres_data:/var/lib/postgresql/data:rw
@@ -40,7 +37,6 @@ services:
   rabbitmq:
     container_name: rabbitmq
     image: rabbitmq:3-management-alpine
-    restart: always
     ports:
       - "5672:5672"
       - "15672:15672"

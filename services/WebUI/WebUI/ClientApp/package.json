@@ -3,6 +3,7 @@
   "version": "0.1.0",
   "private": true,
   "dependencies": {
+    "@auth0/auth0-react": "^1.10.2",
     "axios": "^0.27.2",
     "http-proxy-middleware": "^0.19.1",
     "jquery": "^3.5.1",

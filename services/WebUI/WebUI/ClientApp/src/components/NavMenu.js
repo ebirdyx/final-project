@@ -1,6 +1,7 @@
 import React from 'react';
 import {Icon, Label, Menu} from "semantic-ui-react";
 import {Link} from "react-router-dom";
+import {AuthenticationButton} from "./Auth";
 
 const NavMenu = () => {
   return (
@@ -16,6 +17,13 @@ const NavMenu = () => {
         to='/'
       >
         E-Commerce
+      </Menu.Item>
+      
+      <Menu.Item
+        name='login-button'
+        position='right'
+      >
+        <AuthenticationButton />
       </Menu.Item>
       
       <Menu.Item

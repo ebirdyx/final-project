@@ -1,6 +1,6 @@
 import React, {useEffect, useState} from 'react';
 import CatalogService from "../services/catalog";
-import {Card, Container, Grid, Icon, Image, Input, Label, Menu, Pagination, Select} from "semantic-ui-react";
+import {Card, Grid, Icon, Image, Input, Label, Menu, Pagination, Select} from "semantic-ui-react";
 
 const searchOptions = [
   { key: 'products', text: 'Products', value: 'products' },
@@ -208,6 +208,6 @@ const Home = () => {
       </Grid>
     </div>
   );
-}
+};
 
 export default Home;
