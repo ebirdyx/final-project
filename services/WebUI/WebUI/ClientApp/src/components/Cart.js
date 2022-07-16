@@ -1,9 +1,10 @@
-import React, {useEffect, useState} from 'react';
+import React from 'react';
 import {useAuth0} from "@auth0/auth0-react";
 import {Button, Header, Icon, Input, Item, Label, Segment} from "semantic-ui-react";
 import {useDispatch, useSelector} from "react-redux";
 import {updateCart} from "../store";
 import NumberFormat from "react-number-format";
+import {Link} from "react-router-dom";
 
 const Currency = ({value}) => (
   <NumberFormat
@@ -79,9 +80,9 @@ const Cart = () => {
   return (
     <div>
       <Segment>
-        <div style={{display: 'flex', justifyContent: 'space-between'}}>
+        <div style={{display: 'flex', justifyContent: 'space-between', alignItems: 'center'}}>
           <Header as='h1'>Cart</Header>
-          <Button color='facebook'>Checkout</Button>
+          <Button color='facebook' as={Link} to='/checkout' >Checkout</Button>
         </div>
 
         <Item.Group divided >

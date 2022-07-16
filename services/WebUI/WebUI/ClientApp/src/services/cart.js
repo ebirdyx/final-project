@@ -10,6 +10,9 @@ const CartService = {
   post: async (data) => {
     const resp = await axios.post(cartUrl, data);
     return resp.data;
+  },
+  checkout: async (data) => {
+    await axios.post(`${cartUrl}/CheckoutCart`, data);
   }
 };
 

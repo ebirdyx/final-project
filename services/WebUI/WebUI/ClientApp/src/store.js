@@ -13,7 +13,13 @@ const cartSlice = createSlice({
     items: [],
     totalPrice: 0,
   },
-  reducers: {},
+  reducers: {
+    resetCart: (state, action) => {
+      state.userName = "";
+      state.items = [];
+      state.totalPrice = 0;
+    },
+  },
   extraReducers: builder => {
     builder.addCase(updateCart.fulfilled, (state, action) => {
       state.userName = action.payload.userName;
@@ -22,6 +28,8 @@ const cartSlice = createSlice({
     });
   },
 });
+
+export const {resetCart} = cartSlice.actions;
 
 const reLoadStore = () => {
   if (localStorage.getItem('orcuslab') !== null) {
