@@ -2,8 +2,11 @@ import React from 'react';
 import {Icon, Label, Menu} from "semantic-ui-react";
 import {Link} from "react-router-dom";
 import {AuthenticationButton} from "./Auth";
+import {useSelector} from "react-redux";
 
 const NavMenu = () => {
+  const cart = useSelector(s => s.cart);
+  
   return (
     <Menu stackable>
       <Menu.Item as={Link} to='/'>
@@ -34,7 +37,7 @@ const NavMenu = () => {
       >
         <Label color='green' >
           <Icon name='shopping cart' size='big'/>
-          2
+          {cart.items && cart.items.length}
         </Label>
       </Menu.Item>
     </Menu>

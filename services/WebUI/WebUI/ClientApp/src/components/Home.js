@@ -1,6 +1,9 @@
 import React, {useEffect, useState} from 'react';
 import CatalogService from "../services/catalog";
-import {Card, Grid, Icon, Image, Input, Label, Menu, Pagination, Select} from "semantic-ui-react";
+import {Button, Card, Grid, Icon, Image, Input, Label, Menu, Pagination, Select} from "semantic-ui-react";
+import {useDispatch, useSelector} from "react-redux";
+import {updateCart} from "../store";
+import {useAuth0} from "@auth0/auth0-react";
 
 const searchOptions = [
   { key: 'products', text: 'Products', value: 'products' },
@@ -13,7 +16,56 @@ const pageNumberItemsOptions = [
   { key: '36', text: '36', value: 36 },
 ];
 
-const ProductCard = ({name, description, price, imageFile, category}) => {
+const ProductCard = ({id, name, description, price, imageFile, category}) => {
+  const dispatch = useDispatch();
+  const cart = useSelector(s => s.cart);
+  const {user} = useAuth0();
+  const {email} = user;
+  const isProductInCart = cart.items 
+    && cart.items.some(i => i.productId === id);
+  
+  const handleAddCard = (event) => {
+    event.preventDefault();
+    
+    let items = [];
+    if (cart.items.some(i => i.productId === id)) {
+      const quantity = cart.items.find(i => i.productId === id).quantity;
+      items = cart.items.filter(i => i.productId !== id)
+      items.push({
+        "quantity": quantity+1,
+        "price": price,
+        "color": "",
+        "productId": id,
+        "productName": name,
+      });
+    } else {
+      items = [...cart.items];
+      items.push({
+        "quantity": 1,
+        "price": price,
+        "color": "",
+        "productId": id,
+        "productName": name,
+      }); 
+    }
+    
+    dispatch(updateCart({...cart, items, userName: email}));
+  }
+  
+  const handleRemoveCard = (event) => {
+    event.preventDefault();
+    let items = cart.items.filter(i => i.productId !== id)
+    dispatch(updateCart({...cart, items, userName: email}));
+  }
+
+  const styles = {
+    display: 'flex',
+    flexDirection: 'row',
+    width: '100%',
+    justifyContent: 'center',
+    marginBottom: '10px'
+  };
+  
   return (
     <Card>
       <Image src={imageFile} wrapped ui={false} />
@@ -28,8 +80,14 @@ const ProductCard = ({name, description, price, imageFile, category}) => {
           {description}
         </Card.Description>
       </Card.Content>
-      <Card.Content extra textAlign='center'>
-        <Label color='blue'>{category}</Label>
+      <Card.Content extra textAlign='center' >
+        <div style={styles}>
+          <Label color='blue'>{category}</Label>
+        </div>
+        {isProductInCart
+        ? <Button onClick={handleRemoveCard} color='red'>Remove from cart</Button>
+        : <Button onClick={handleAddCard} color='green'>Add to cart</Button>
+        }
       </Card.Content>
     </Card>
   );

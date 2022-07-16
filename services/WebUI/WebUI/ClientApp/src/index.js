@@ -6,15 +6,19 @@ import App from './App';
 import * as serviceWorkerRegistration from './serviceWorkerRegistration';
 import reportWebVitals from './reportWebVitals';
 import {AuthProvider} from "./components/Auth";
+import {Provider} from "react-redux";
+import rootStore from "./store";
 
 const baseUrl = document.getElementsByTagName('base')[0].getAttribute('href');
 const rootElement = document.getElementById('root');
 
 ReactDOM.render(
   <BrowserRouter basename={baseUrl}>
-    <AuthProvider>
-      <App/>
-    </AuthProvider>
+    <Provider store={rootStore} >
+      <AuthProvider>
+        <App/>
+      </AuthProvider>
+    </Provider>
   </BrowserRouter>,
   rootElement);
 
