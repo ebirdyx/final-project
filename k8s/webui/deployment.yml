@@ -29,11 +29,11 @@ spec:
               value: "dev-wmjl5tm2.us.auth0.com"
             - name: REACT_APP_AUTH0_CLIENT_ID
               value: "FMeJHSqsHUm6ajT8xypQjlEAgoQH7WHj"
-            - name: ASPNETCORE_ENVIRONMENT
-              valueFrom:
-                secretKeyRef:
-                  name: final-project-secrets
-                  key: ASPNETCORE_ENVIRONMENT
+#            - name: ASPNETCORE_ENVIRONMENT
+#              valueFrom:
+#                secretKeyRef:
+#                  name: final-project-secrets
+#                  key: ASPNETCORE_ENVIRONMENT
 ---
 apiVersion: v1
 kind: Service
