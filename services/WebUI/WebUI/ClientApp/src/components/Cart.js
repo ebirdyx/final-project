@@ -1,12 +1,25 @@
-import React from 'react';
+import React, {useEffect, useState} from 'react';
 import {useAuth0} from "@auth0/auth0-react";
 import {Button, Header, Icon, Input, Item, Label, Segment} from "semantic-ui-react";
-import {shallowEqual, useDispatch, useSelector} from "react-redux";
+import {useDispatch, useSelector} from "react-redux";
 import {updateCart} from "../store";
+import NumberFormat from "react-number-format";
+
+const Currency = ({value}) => (
+  <NumberFormat
+    value={value}
+    displayType='text'
+    thousandSeparator={true}
+    prefix='$'
+    decimalScale={2}
+    fixedDecimalScale={true}
+  />
+);
 
 const Cart = () => {
   const cart = useSelector(s => s.cart);
-  // const cart = useSelector(s => s.cart, shallowEqual);
+  const sortedItems = (cart.items && cart.items.length > 0) ?
+    cart.items.concat().sort((a, b) => a.productId > b.productId) : [];
   const dispatch = useDispatch();
   const {user} = useAuth0();
   const {email} = user;
@@ -48,6 +61,11 @@ const Cart = () => {
     updateQuantity(id, updatedItem);
   }
   
+  const handleRemoveItem = (id) => {
+    let items = cart.items.filter(i => i.productId !== id)
+    dispatch(updateCart({...cart, items, userName: email}));
+  }
+  
   if (!haveItems)
     return (
       <Segment>
@@ -67,7 +85,7 @@ const Cart = () => {
         </div>
 
         <Item.Group divided >
-          {cart.items.map(i => (
+          {sortedItems.map(i => (
             <Item key={i.productId}>
               <Item.Image style={{margin: 'auto'}} size='tiny' src='http://placekitten.com/300/300' />
 
@@ -75,7 +93,8 @@ const Cart = () => {
                 <Item.Header>Stevie Feliciano</Item.Header>
 
                 <Item.Meta>
-                  <Label size='small' color='teal'>$ {i.price}</Label>
+                  <Label size='small' color='teal'><Currency value={i.price} /></Label>
+                  <Button onClick={() => handleRemoveItem(i.productId)} size='mini' inverted color='red'>Remove</Button>
                 </Item.Meta>
 
                 <Item.Extra>
@@ -88,7 +107,7 @@ const Cart = () => {
                   </Button>
 
                   <Header floated='right'>
-                    $ {i.price * i.quantity}
+                    <Currency value={i.price * i.quantity} />
                   </Header>
                 </Item.Extra>
               </Item.Content>
@@ -99,7 +118,7 @@ const Cart = () => {
       
       <div style={{textAlign: 'right'}}>
         <Segment style={{marginLeft: 'auto'}} compact >
-          <Header>Total: $ {cart.totalPrice}</Header>
+          <Header>Total: <Currency value={cart.totalPrice} /></Header>
         </Segment>
       </div>
     </div>
