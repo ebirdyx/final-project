@@ -97,6 +97,7 @@ jobs:
           string-data: >-
             {"MONGO_DB_USER": "${{ secrets.MONGO_DB_USER }}",
             "MONGO_DB_PASSWORD": "${{ secrets.MONGO_DB_PASSWORD }}",
+            "MONGO_DB_CONN_STRING": "${{ secrets.MONGO_DB_CONN_STRING }}",
             "REDIS_PASSWORD": "${{ secrets.REDIS_PASSWORD }}",
             "POSTGRES_USER": "${{ secrets.POSTGRES_USER }}",
             "POSTGRES_PASSWORD": "${{ secrets.POSTGRES_PASSWORD }}",
