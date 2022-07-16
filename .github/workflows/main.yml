@@ -105,6 +105,7 @@ jobs:
             "PG_ADMIN_PASSWORD": "${{ secrets.PG_ADMIN_PASSWORD }}",
             "RABBITMQ_USER": "${{ secrets.RABBITMQ_USER }}",
             "RABBITMQ_PASS": "${{ secrets.RABBITMQ_PASS }}",
+            "RABBITMQ_CONN_STRING": "${{ secrets.RABBITMQ_CONN_STRING }}",
             "ASPNETCORE_ENVIRONMENT": "Development"}
 
       - name: Deploy Redis

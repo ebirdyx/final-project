@@ -26,7 +26,10 @@ spec:
             - name: GrpcSettings__DiscountUrl
               value: "http://discount:5000"
             - name: Messaging__ConnectionString
-              value: "amqp://${RABBITMQ_USER}:${RABBITMQ_PASS}@rabbitmq:5672"
+              valueFrom:
+                secretKeyRef:
+                  name: final-project-secrets
+                  key: RABBITMQ_CONN_STRING
             - name: CacheSettings__Password
               valueFrom:
                 secretKeyRef:
