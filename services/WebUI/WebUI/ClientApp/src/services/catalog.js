@@ -4,7 +4,7 @@ const getCatalogUrl = async () => {
   // console.log(`${window.location.origin}/config`);
   // const response = await axios.get(`${window.location.origin}/config`)
   // return response.data.json()["catalogServiceUrl"];
-  return "http://catalog:5000/api/v1/catalog";
+  return "https://ecommerce.az.orcuslab.com/api/catalog/api/v1/catalog";
 }
 
 const CatalogService = {
