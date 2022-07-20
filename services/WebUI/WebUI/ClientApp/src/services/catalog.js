@@ -10,7 +10,6 @@ const getCatalogUrl = async () => {
 const CatalogService = {
   getAll: async () => {
     const catalogUrl = await getCatalogUrl();
-    console.log(catalogUrl);
     const resp = await axios.get(catalogUrl);
     return resp.data;
   },
