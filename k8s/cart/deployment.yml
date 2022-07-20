@@ -35,6 +35,11 @@ spec:
                 secretKeyRef:
                   name: final-project-secrets
                   key: REDIS_PASSWORD
+            - name: CacheSettings__ConnectionString
+              valueFrom:
+                secretKeyRef:
+                  name: final-project-secrets
+                  key: REDIS_CONN_STRING
             - name: ASPNETCORE_ENVIRONMENT
               valueFrom:
                 secretKeyRef:
