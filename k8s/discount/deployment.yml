@@ -27,7 +27,10 @@ spec:
             - name: Logging__LogLevel__Default
               value: "Information"
             - name: DatabaseSettings__ConnectionString
-              value: "Server=postgres;Port=5432;Database=discount;User Id=${POSTGRES_USER};Password=${POSTGRES_PASSWORD};"
+              valueFrom:
+                secretKeyRef:
+                  name: final-project-secrets
+                  key: POSTGRES_CONN_STRING
             - name: POSTGRES_USER
               valueFrom:
                 secretKeyRef:
