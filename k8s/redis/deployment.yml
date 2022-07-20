@@ -36,7 +36,7 @@ spec:
             - "--loglevel"
             - "warning"
             - "--requirepass"
-            - "${REDIS_PASSWORD}"
+            - "$(REDIS_PASSWORD)"
           ports:
             - containerPort: 6379
           env:
