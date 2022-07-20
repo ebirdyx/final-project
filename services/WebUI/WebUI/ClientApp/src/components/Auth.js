@@ -4,8 +4,8 @@ import {Button, Dimmer, Form, Image, Label, Loader, Segment} from "semantic-ui-r
 import {Route, useHistory} from "react-router-dom";
 
 export const AuthProvider = ({children}) => {
-  const domain = process.env.REACT_APP_AUTH0_DOMAIN;
-  const clientId = process.env.REACT_APP_AUTH0_CLIENT_ID;
+  const domain = "dev-wmjl5tm2.us.auth0.com";
+  const clientId = "FMeJHSqsHUm6ajT8xypQjlEAgoQH7WHj";
   const redirectUri = window.location.origin;
 
   const history = useHistory();

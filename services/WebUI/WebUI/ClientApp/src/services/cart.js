@@ -1,17 +1,24 @@
 import axios from 'axios';
 
-const cartUrl = process.env.REACT_APP_CART_SERVICE_URL;
+const getCartUrl = async () => {
+  // const response = await axios.get(`${window.location.origin}/config`)
+  // return response.data.json()["cartServiceUrl"];
+  return "http://cart:5000/api/v1/catalog";
+}
 
 const CartService = {
   get: async (username) => {
+    const cartUrl = await getCartUrl();
     const resp = await axios.get(`${cartUrl}/${username}`);
     return resp.data;
   },
   post: async (data) => {
+    const cartUrl = await getCartUrl();
     const resp = await axios.post(cartUrl, data);
     return resp.data;
   },
   checkout: async (data) => {
+    const cartUrl = await getCartUrl();
     await axios.post(`${cartUrl}/CheckoutCart`, data);
   }
 };

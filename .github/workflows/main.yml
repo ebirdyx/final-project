@@ -107,6 +107,8 @@ jobs:
             "RABBITMQ_USER": "${{ secrets.RABBITMQ_USER }}",
             "RABBITMQ_PASS": "${{ secrets.RABBITMQ_PASS }}",
             "RABBITMQ_CONN_STRING": "${{ secrets.RABBITMQ_CONN_STRING }}",
+            "AUTH0_DOMAIN": "${{ secrets.AUTH0_DOMAIN }}",
+            "AUTH0_CLIENT_ID": "${{ secrets.AUTH0_CLIENT_ID }}",
             "ASPNETCORE_ENVIRONMENT": "Development"}
 
       - name: Deploy Redis

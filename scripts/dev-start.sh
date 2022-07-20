@@ -15,7 +15,12 @@ export RABBITMQ_PASS=${RABBITMQ_PASS:-admin}
 
 COMPOSE="docker-compose"
 
-if [[ "$action" == "services" ]]; then
+if [[ "$action" == "all" ]]; then
+  $COMPOSE \
+    -f docker-compose.infrastructure.yml \
+    -f docker-compose.services.yml \
+    up --build
+elif [[ "$action" == "all-dev" ]]; then
   $COMPOSE \
     -f docker-compose.infrastructure.yml \
     -f docker-compose.development.yml \

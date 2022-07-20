@@ -26,14 +26,20 @@ spec:
             - name: REACT_APP_CART_SERVICE_URL
               value: "https://ecommerce.az.orcuslab.com/api/cart/api/v1/cart"
             - name: REACT_APP_AUTH0_DOMAIN
-              value: "dev-wmjl5tm2.us.auth0.com"
+              valueFrom:
+                secretKeyRef:
+                  name: final-project-secrets
+                  key: AUTH0_DOMAIN
             - name: REACT_APP_AUTH0_CLIENT_ID
-              value: "FMeJHSqsHUm6ajT8xypQjlEAgoQH7WHj"
-#            - name: ASPNETCORE_ENVIRONMENT
-#              valueFrom:
-#                secretKeyRef:
-#                  name: final-project-secrets
-#                  key: ASPNETCORE_ENVIRONMENT
+              valueFrom:
+                secretKeyRef:
+                  name: final-project-secrets
+                  key: AUTH0_CLIENT_ID
+            - name: ASPNETCORE_ENVIRONMENT
+              valueFrom:
+                secretKeyRef:
+                  name: final-project-secrets
+                  key: ASPNETCORE_ENVIRONMENT
 ---
 apiVersion: v1
 kind: Service
