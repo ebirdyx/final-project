@@ -21,8 +21,6 @@ spec:
           env:
             - name: Logging__LogLevel__Default
               value: "Information"
-            - name: CacheSettings__ConnectionString
-              value: "redis:6379"
             - name: GrpcSettings__DiscountUrl
               value: "http://discount:5000"
             - name: Messaging__ConnectionString
