@@ -3,7 +3,7 @@ import axios from 'axios';
 const getCartUrl = async () => {
   // const response = await axios.get(`${window.location.origin}/config`)
   // return response.data.json()["cartServiceUrl"];
-  return "http://cart:5000/api/v1/catalog";
+  return "http://cart:5000/api/v1/cart";
 }
 
 const CartService = {
