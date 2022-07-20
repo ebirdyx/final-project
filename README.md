@@ -1,5 +1,6 @@
-ecommerce
+ecommerce 
 =========
+Final project - building ecommerce with microservice
 
 ## Local Development
 #### Infrastructure
