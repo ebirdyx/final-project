@@ -88,10 +88,10 @@ const Cart = () => {
         <Item.Group divided >
           {sortedItems.map(i => (
             <Item key={i.productId}>
-              <Item.Image style={{margin: 'auto'}} size='tiny' src='http://placekitten.com/300/300' />
+              <Item.Image style={{margin: 'auto'}} size='tiny' src='https://external-content.duckduckgo.com/iu/?u=https%3A%2F%2Fcdn.pixabay.com%2Fphoto%2F2013%2F07%2F12%2F18%2F21%2Fpackage-153360_960_720.png&f=1&nofb=1' />
 
               <Item.Content>
-                <Item.Header>Stevie Feliciano</Item.Header>
+                <Item.Header>{i.productName}</Item.Header>
 
                 <Item.Meta>
                   <Label size='small' color='teal'><Currency value={i.price} /></Label>
